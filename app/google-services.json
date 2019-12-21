@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "734503298533",
+    "firebase_url": "https://event-rating-6bd03.firebaseio.com",
+    "project_id": "event-rating-6bd03",
+    "storage_bucket": "event-rating-6bd03.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:734503298533:android:d99cb6942b62e9e439fb0c",
+        "android_client_info": {
+          "package_name": "hello.com.eventratingapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "734503298533-jmkacddggtff77j31shb0sucj82v3air.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "hello.com.eventratingapp",
+            "certificate_hash": "35e43881c5ef299db28275e3310bcc5f5f6b16cf"
+          }
+        },
+        {
+          "client_id": "734503298533-36p8b8gr4s5stsquheasjevnbsmv8n70.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB4bwp0TlNrM-Rac1dpaSbeI-31JUpOEwY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "734503298533-36p8b8gr4s5stsquheasjevnbsmv8n70.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
