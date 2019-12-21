@@ -4,9 +4,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -23,6 +26,8 @@ public class EventListActivity extends AppCompatActivity {
     private DatabaseReference mDatabase;
     private ListView eventListView;
     private ArrayList<String> eventArrayList = new ArrayList<String>();
+    private EditText eventFilterEditText;
+    private ArrayAdapter<String> arrayAdapter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -31,8 +36,9 @@ public class EventListActivity extends AppCompatActivity {
 
         mDatabase = FirebaseDatabase.getInstance().getReference().child("Event");
         eventListView = (ListView) findViewById(R.id.eventListView);
+        eventFilterEditText = (EditText) findViewById(R.id.eventFilterEditText);
 
-        final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(EventListActivity.this, android.R.layout.simple_list_item_1, eventArrayList);
+        arrayAdapter = new ArrayAdapter<String>(EventListActivity.this, android.R.layout.simple_list_item_1, eventArrayList);
         eventListView.setAdapter(arrayAdapter);
 
         mDatabase.addChildEventListener(new ChildEventListener() {
@@ -81,5 +87,23 @@ public class EventListActivity extends AppCompatActivity {
 
             }
         });
+
+        eventFilterEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                (EventListActivity.this).arrayAdapter.getFilter().filter(s);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
     }
 }
