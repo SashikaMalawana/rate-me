@@ -48,6 +48,7 @@ public class EventListActivity extends AppCompatActivity {
                 String eventKey = dataSnapshot.getKey();
                 int index = eventArrayList.indexOf(eventKey);
                 eventArrayList.set(index, eventKey);
+                arrayAdapter.notifyDataSetChanged();
             }
 
             @Override
@@ -55,6 +56,7 @@ public class EventListActivity extends AppCompatActivity {
                 String eventKey = dataSnapshot.getKey();
                 int index = eventArrayList.indexOf(eventKey);
                 eventArrayList.set(index, null);
+                arrayAdapter.notifyDataSetChanged();
             }
 
             @Override
@@ -72,9 +74,11 @@ public class EventListActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Toast.makeText(EventListActivity.this, "Clicked list item " +(eventArrayList.get(position)), Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(EventListActivity.this, SearchEventActivity.class);
+
+                Intent intent = new Intent(EventListActivity.this, EventHomeActivity.class);
+                intent.putExtra("clickedItem", eventArrayList.get(position));
                 startActivity(intent);
-                //call method passing eventArrayList.get(position) value
+
             }
         });
     }

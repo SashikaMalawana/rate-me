@@ -20,6 +20,7 @@
         <activity android:name=".CreateCompetitorActivity"></activity>
         <activity android:name=".SearchEventActivity"></activity>
         <activity android:name=".EventListActivity"></activity>
+        <activity android:name=".EventHomeActivity"></activity>
     </application>
 
 </manifest>
