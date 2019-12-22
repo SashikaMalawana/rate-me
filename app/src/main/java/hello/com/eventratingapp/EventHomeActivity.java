@@ -4,7 +4,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -20,6 +23,8 @@ public class EventHomeActivity extends AppCompatActivity {
     private TextView countryOfOriginTextView;
     private TextView originalLnaguageTextView;
     private TextView genreTextView;
+    private Button subscribeEventButton;
+    private String eventForSubscribe;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -32,6 +37,7 @@ public class EventHomeActivity extends AppCompatActivity {
         countryOfOriginTextView = (TextView) findViewById(R.id.countryOfOriginTextView);
         originalLnaguageTextView = (TextView) findViewById(R.id.originalLanguageTextView);
         genreTextView = (TextView) findViewById(R.id.genreTextView);
+        subscribeEventButton = (Button) findViewById(R.id.subscribeEventButton);
 
         Intent intent = getIntent();
         String clickedListViewItem = intent.getStringExtra("clickedItem");
@@ -44,6 +50,7 @@ public class EventHomeActivity extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 String name = dataSnapshot.getValue().toString();
                 eventNameLongTextView.setText(name);
+                eventForSubscribe = name;
             }
 
             @Override
@@ -91,6 +98,13 @@ public class EventHomeActivity extends AppCompatActivity {
             @Override
             public void onCancelled(DatabaseError databaseError) {
 
+            }
+        });
+
+        subscribeEventButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(EventHomeActivity.this, "You subscribed " +eventForSubscribe, Toast.LENGTH_SHORT).show();
             }
         });
 
