@@ -21,6 +21,8 @@
         <activity android:name=".SearchEventActivity"></activity>
         <activity android:name=".EventListActivity"></activity>
         <activity android:name=".EventHomeActivity"></activity>
+        <activity android:name=".EventCompetitorListActivity"></activity>
+        <activity android:name=".EventCompetitorProfileActivity"></activity>
     </application>
 
 </manifest>

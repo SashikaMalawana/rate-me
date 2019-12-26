@@ -24,6 +24,7 @@ public class EventHomeActivity extends AppCompatActivity {
     private TextView genreTextView;
     private Button subscribeEventButton;
     private String eventForSubscribe;
+    private Button competitorListButton;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -37,9 +38,10 @@ public class EventHomeActivity extends AppCompatActivity {
         originalLnaguageTextView = (TextView) findViewById(R.id.originalLanguageTextView);
         genreTextView = (TextView) findViewById(R.id.genreTextView);
         subscribeEventButton = (Button) findViewById(R.id.subscribeEventButton);
+        competitorListButton = (Button) findViewById(R.id.competitorListButton);
 
         Intent intent = getIntent();
-        String clickedListViewItem = intent.getStringExtra("clickedItem");
+        final String clickedListViewItem = intent.getStringExtra("clickedItem");
 
         eventNameShortTextView.setText(clickedListViewItem);
 
@@ -104,6 +106,15 @@ public class EventHomeActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Toast.makeText(EventHomeActivity.this, "You subscribed " +eventForSubscribe, Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        competitorListButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(EventHomeActivity.this, EventCompetitorListActivity.class);
+                intent.putExtra("eventName", clickedListViewItem);
+                startActivity(intent);
             }
         });
 
