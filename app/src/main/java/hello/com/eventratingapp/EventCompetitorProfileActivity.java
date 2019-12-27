@@ -4,7 +4,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.Button;
+import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -20,6 +25,11 @@ public class EventCompetitorProfileActivity extends AppCompatActivity {
     private TextView hometownTextView;
     private TextView performanceTypeTextView;
     private TextView descriptionTextView;
+    private RatingBar averageRatingBar;
+    private RatingBar userRatingBar;
+    private Button submitRatingButton;
+    private TextView averageRatingBarValueTextView;
+    private TextView noOfRatingsTextView;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -32,6 +42,12 @@ public class EventCompetitorProfileActivity extends AppCompatActivity {
         hometownTextView = (TextView) findViewById(R.id.hometownTextView);
         performanceTypeTextView = (TextView) findViewById(R.id.performanceTypeTextView);
         descriptionTextView = (TextView) findViewById(R.id.descriptionTextView);
+
+        averageRatingBar = (RatingBar) findViewById(R.id.averageRatingBar);
+        userRatingBar = (RatingBar) findViewById(R.id.userRatingBar);
+        submitRatingButton = (Button) findViewById(R.id.submitRatingButton);
+        averageRatingBarValueTextView = (TextView) findViewById(R.id.averageRatingBarValue);
+        noOfRatingsTextView = (TextView) findViewById(R.id.noOfRatings);
 
         Intent intent = getIntent();
         String currentEventFromIntent = intent.getStringExtra("currentEvent");
@@ -106,6 +122,22 @@ public class EventCompetitorProfileActivity extends AppCompatActivity {
             @Override
             public void onCancelled(DatabaseError databaseError) {
 
+            }
+        });
+
+        String averageRatingValue = "2.5";
+        String noOfRatings = "2751";
+        averageRatingBar.setRating(Float.parseFloat(averageRatingValue));
+        averageRatingBarValueTextView.setText(averageRatingValue);
+        noOfRatingsTextView.setText(noOfRatings);
+
+        submitRatingButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                float userRatingValueStr = userRatingBar.getRating();
+                String RatingValueFlt = String.valueOf(userRatingValueStr);
+                Toast.makeText(EventCompetitorProfileActivity.this, "Your Rating Value is " +RatingValueFlt, Toast.LENGTH_SHORT).show();
             }
         });
 
