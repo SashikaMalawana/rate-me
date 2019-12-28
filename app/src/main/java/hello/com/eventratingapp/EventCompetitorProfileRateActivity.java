@@ -2,6 +2,7 @@ package hello.com.eventratingapp;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -11,6 +12,8 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -32,6 +35,9 @@ public class EventCompetitorProfileRateActivity extends AppCompatActivity {
     private EditText reviewEditText;
     private Button submitRatingReviewButoon;
 
+    String currentEventFromIntent;
+    String currentCompetitorFromIntent;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,8 +57,8 @@ public class EventCompetitorProfileRateActivity extends AppCompatActivity {
         submitRatingReviewButoon = (Button) findViewById(R.id.submitRatingReviewButton);
 
         Intent intent = getIntent();
-        String currentEventFromIntent = intent.getStringExtra("currentEvent");
-        String currentCompetitorFromIntent = intent.getStringExtra("currentCompetitor");
+        currentEventFromIntent = intent.getStringExtra("currentEvent");
+        currentCompetitorFromIntent = intent.getStringExtra("currentCompetitor");
 
         eventCompetitorNameHeadRateTextView.setText(currentCompetitorFromIntent);
 
@@ -147,6 +153,22 @@ public class EventCompetitorProfileRateActivity extends AppCompatActivity {
                 float userRatingFloat = userInnerRatingBar.getRating();
                 String userRatingString = String.valueOf(userRatingFloat);
                 Toast.makeText(EventCompetitorProfileRateActivity.this, "Your rating value is " +userRatingString, Toast.LENGTH_SHORT).show();
+
+                String review = reviewEditText.getText().toString().trim();
+                DatabaseReference mDatabaseReview = FirebaseDatabase.getInstance().getReference().child("Event").child(currentEventFromIntent).child("Event Competitors").child(currentCompetitorFromIntent).child("Rating");
+                mDatabaseReview.child("Reviews").setValue(review).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            Toast.makeText(EventCompetitorProfileRateActivity.this, "Review is stored", Toast.LENGTH_SHORT).show();
+                        }
+                        else {
+                            Toast.makeText(EventCompetitorProfileRateActivity.this, "Review is not stored", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+
+                reviewEditText.setText("");
             }
         });
 
