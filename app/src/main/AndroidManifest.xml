@@ -23,6 +23,7 @@
         <activity android:name=".EventHomeActivity"></activity>
         <activity android:name=".EventCompetitorListActivity"></activity>
         <activity android:name=".EventCompetitorProfileActivity"></activity>
+        <activity android:name=".EventCompetitorProfileRateActivity"></activity>
     </application>
 
 </manifest>
