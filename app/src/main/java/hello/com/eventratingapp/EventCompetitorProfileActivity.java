@@ -28,8 +28,9 @@ public class EventCompetitorProfileActivity extends AppCompatActivity {
     private RatingBar averageRatingBar;
     private RatingBar userRatingBar;
     private Button submitRatingButton;
-    private TextView averageRatingBarValueTextView;
+    private TextView weightedAverageRatingTextView;
     private TextView noOfRatingsTextView;
+    private TextView ratingScaleTextView;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -46,8 +47,10 @@ public class EventCompetitorProfileActivity extends AppCompatActivity {
         averageRatingBar = (RatingBar) findViewById(R.id.averageRatingBar);
         userRatingBar = (RatingBar) findViewById(R.id.userRatingBar);
         submitRatingButton = (Button) findViewById(R.id.submitRatingButton);
-        averageRatingBarValueTextView = (TextView) findViewById(R.id.averageRatingBarValue);
-        noOfRatingsTextView = (TextView) findViewById(R.id.noOfRatings);
+        weightedAverageRatingTextView = (TextView) findViewById(R.id.weightedAverageRatingTextView);
+        noOfRatingsTextView = (TextView) findViewById(R.id.noOfRatingsTextView);
+
+        ratingScaleTextView = (TextView) findViewById(R.id.ratingScaleTextView);
 
         Intent intent = getIntent();
         String currentEventFromIntent = intent.getStringExtra("currentEvent");
@@ -125,11 +128,35 @@ public class EventCompetitorProfileActivity extends AppCompatActivity {
             }
         });
 
-        String averageRatingValue = "2.5";
-        String noOfRatings = "2751";
-        averageRatingBar.setRating(Float.parseFloat(averageRatingValue));
-        averageRatingBarValueTextView.setText(averageRatingValue);
-        noOfRatingsTextView.setText(noOfRatings);
+        //Handle ratings
+        DatabaseReference mDatabaseRatingPoint = FirebaseDatabase.getInstance().getReference().child("Event").child(currentEventFromIntent).child("Event Competitors").child(clickedListViewItem).child("Rating").child("Weighted Average Rating");
+        mDatabaseRatingPoint.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                String weightedAverageRating = dataSnapshot.getValue().toString();
+                weightedAverageRatingTextView.setText(weightedAverageRating);
+                averageRatingBar.setRating(Float.valueOf(weightedAverageRating));
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+        DatabaseReference mDatabaseNoOfRating = FirebaseDatabase.getInstance().getReference().child("Event").child(currentEventFromIntent).child("Event Competitors").child(clickedListViewItem).child("Rating").child("No Of Ratings");
+        mDatabaseNoOfRating.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                String noOfRatings = dataSnapshot.getValue().toString();
+                noOfRatingsTextView.setText(noOfRatings);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
 
         submitRatingButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -138,6 +165,47 @@ public class EventCompetitorProfileActivity extends AppCompatActivity {
                 float userRatingValueStr = userRatingBar.getRating();
                 String RatingValueFlt = String.valueOf(userRatingValueStr);
                 Toast.makeText(EventCompetitorProfileActivity.this, "Your Rating Value is " +RatingValueFlt, Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        userRatingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+            @Override
+            public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
+                ratingScaleTextView.setText(String.valueOf(rating));
+                switch ((int) ratingBar.getRating()) {
+                    case 1:
+                        ratingScaleTextView.setText("Worst!");
+                        break;
+                    case 2:
+                        ratingScaleTextView.setText("Very bad!");
+                        break;
+                    case 3:
+                        ratingScaleTextView.setText("Need some improvement!");
+                        break;
+                    case 4:
+                        ratingScaleTextView.setText("Good");
+                        break;
+                    case 5:
+                        ratingScaleTextView.setText("Superb!");
+                        break;
+                    case 6:
+                        ratingScaleTextView.setText("Perfect!");
+                        break;
+                    case 7:
+                        ratingScaleTextView.setText("Brilliant!");
+                        break;
+                    case 8:
+                        ratingScaleTextView.setText("Remarkable!");
+                        break;
+                    case 9:
+                        ratingScaleTextView.setText("Outstanding!");
+                        break;
+                    case 10:
+                        ratingScaleTextView.setText("Majestic!");
+                        break;
+                    default:
+                        ratingScaleTextView.setText("");
+                }
             }
         });
 
