@@ -134,7 +134,7 @@ public class EventCompetitorProfileActivity extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 String weightedAverageRating = dataSnapshot.getValue().toString();
-                weightedAverageRatingTextView.setText(weightedAverageRating);
+                weightedAverageRatingTextView.setText(weightedAverageRating + "/10");
                 averageRatingBar.setRating(Float.valueOf(weightedAverageRating));
             }
 
