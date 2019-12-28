@@ -26,11 +26,9 @@ public class EventCompetitorProfileActivity extends AppCompatActivity {
     private TextView performanceTypeTextView;
     private TextView descriptionTextView;
     private RatingBar averageRatingBar;
-    private RatingBar userRatingBar;
-    private Button submitRatingButton;
+    private Button rateCompetitorButton;
     private TextView weightedAverageRatingTextView;
     private TextView noOfRatingsTextView;
-    private TextView ratingScaleTextView;
 
     String currentEventFromIntent;
     String clickedListViewItem;
@@ -48,12 +46,9 @@ public class EventCompetitorProfileActivity extends AppCompatActivity {
         descriptionTextView = (TextView) findViewById(R.id.descriptionTextView);
 
         averageRatingBar = (RatingBar) findViewById(R.id.averageRatingBar);
-        userRatingBar = (RatingBar) findViewById(R.id.userRatingBar);
-        submitRatingButton = (Button) findViewById(R.id.submitRatingButton);
+        rateCompetitorButton = (Button) findViewById(R.id.rateCompetitorButton);
         weightedAverageRatingTextView = (TextView) findViewById(R.id.weightedAverageRatingTextView);
         noOfRatingsTextView = (TextView) findViewById(R.id.noOfRatingsTextView);
-
-        ratingScaleTextView = (TextView) findViewById(R.id.ratingScaleTextView);
 
         Intent intent = getIntent();
         currentEventFromIntent = intent.getStringExtra("currentEvent");
@@ -161,60 +156,13 @@ public class EventCompetitorProfileActivity extends AppCompatActivity {
             }
         });
 
-        submitRatingButton.setOnClickListener(new View.OnClickListener() {
+        rateCompetitorButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-//                float userRatingValueStr = userRatingBar.getRating();
-//                String RatingValueFlt = String.valueOf(userRatingValueStr);
-//                Toast.makeText(EventCompetitorProfileActivity.this, "Your Rating Value is " +RatingValueFlt, Toast.LENGTH_SHORT).show();
-
                 Intent intent = new Intent(EventCompetitorProfileActivity.this, EventCompetitorProfileRateActivity.class);
                 intent.putExtra("currentEvent", currentEventFromIntent);
                 intent.putExtra("currentCompetitor", clickedListViewItem);
                 startActivity(intent);
-
-            }
-        });
-
-        userRatingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
-            @Override
-            public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
-                ratingScaleTextView.setText(String.valueOf(rating));
-                switch ((int) ratingBar.getRating()) {
-                    case 1:
-                        ratingScaleTextView.setText("Worst! Never see this again!");
-                        break;
-                    case 2:
-                        ratingScaleTextView.setText("Very bad! I'm not interested in!");
-                        break;
-                    case 3:
-                        ratingScaleTextView.setText("Need some improvement!");
-                        break;
-                    case 4:
-                        ratingScaleTextView.setText("Good! Fair enough!");
-                        break;
-                    case 5:
-                        ratingScaleTextView.setText("Superb! I like that!");
-                        break;
-                    case 6:
-                        ratingScaleTextView.setText("Perfect! I enjoy that!");
-                        break;
-                    case 7:
-                        ratingScaleTextView.setText("Brilliant! I love that!");
-                        break;
-                    case 8:
-                        ratingScaleTextView.setText("Remarkable! I'm really into!");
-                        break;
-                    case 9:
-                        ratingScaleTextView.setText("Outstanding! I'm interested in!");
-                        break;
-                    case 10:
-                        ratingScaleTextView.setText("Majestic! I'm big fan of it!");
-                        break;
-                    default:
-                        ratingScaleTextView.setText("");
-                }
             }
         });
 
