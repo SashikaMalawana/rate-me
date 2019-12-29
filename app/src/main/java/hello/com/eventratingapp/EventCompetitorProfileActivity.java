@@ -25,10 +25,11 @@ public class EventCompetitorProfileActivity extends AppCompatActivity {
     private TextView hometownTextView;
     private TextView performanceTypeTextView;
     private TextView descriptionTextView;
+
     private RatingBar averageRatingBar;
-    private Button rateCompetitorButton;
     private TextView weightedAverageRatingTextView;
     private TextView noOfRatingsTextView;
+    private Button rateCompetitorButton;
 
     String currentEventFromIntent;
     String clickedListViewItem;
@@ -46,9 +47,9 @@ public class EventCompetitorProfileActivity extends AppCompatActivity {
         descriptionTextView = (TextView) findViewById(R.id.descriptionTextView);
 
         averageRatingBar = (RatingBar) findViewById(R.id.averageRatingBar);
-        rateCompetitorButton = (Button) findViewById(R.id.rateCompetitorButton);
         weightedAverageRatingTextView = (TextView) findViewById(R.id.weightedAverageRatingTextView);
         noOfRatingsTextView = (TextView) findViewById(R.id.noOfRatingsTextView);
+        rateCompetitorButton = (Button) findViewById(R.id.rateCompetitorButton);
 
         Intent intent = getIntent();
         currentEventFromIntent = intent.getStringExtra("currentEvent");
