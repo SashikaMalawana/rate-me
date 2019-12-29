@@ -11,7 +11,6 @@ import android.widget.EditText;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
@@ -33,7 +32,7 @@ public class EventCompetitorProfileRateActivity extends AppCompatActivity {
     private RatingBar userInnerRatingBar;
     private TextView ratingScaleInnerTextView;
     private EditText reviewEditText;
-    private Button submitRatingReviewButoon;
+    private Button submitRatingReviewButton;
 
     String currentEventFromIntent;
     String currentCompetitorFromIntent;
@@ -54,7 +53,7 @@ public class EventCompetitorProfileRateActivity extends AppCompatActivity {
         ratingScaleInnerTextView = (TextView) findViewById(R.id.ratingScaleInnerTextView);
 
         reviewEditText = (EditText) findViewById(R.id.reviewEditText);
-        submitRatingReviewButoon = (Button) findViewById(R.id.submitRatingReviewButton);
+        submitRatingReviewButton = (Button) findViewById(R.id.submitRatingReviewButton);
 
         Intent intent = getIntent();
         currentEventFromIntent = intent.getStringExtra("currentEvent");
@@ -77,8 +76,8 @@ public class EventCompetitorProfileRateActivity extends AppCompatActivity {
         });
 
         //Handle ratings
-        DatabaseReference mDatabaseRatingPoint = FirebaseDatabase.getInstance().getReference().child("Event").child(currentEventFromIntent).child("Event Competitors").child(currentCompetitorFromIntent).child("Rating").child("Weighted Average Rating");
-        mDatabaseRatingPoint.addValueEventListener(new ValueEventListener() {
+        DatabaseReference mDatabaseAverageRating = FirebaseDatabase.getInstance().getReference().child("Event").child(currentEventFromIntent).child("Event Competitors").child(currentCompetitorFromIntent).child("Rating").child("Weighted Average Rating");
+        mDatabaseAverageRating.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 String weightedAverageRating = dataSnapshot.getValue().toString();
@@ -147,7 +146,7 @@ public class EventCompetitorProfileRateActivity extends AppCompatActivity {
             }
         });
 
-        submitRatingReviewButoon.setOnClickListener(new View.OnClickListener() {
+        submitRatingReviewButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 float userRatingFloat = userInnerRatingBar.getRating();
@@ -168,6 +167,7 @@ public class EventCompetitorProfileRateActivity extends AppCompatActivity {
                     }
                 });
 
+                userInnerRatingBar.setRating(0);
                 reviewEditText.setText("");
             }
         });
