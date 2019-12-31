@@ -1,5 +1,6 @@
 package hello.com.eventratingapp;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -24,8 +25,9 @@ public class EventListActivity extends AppCompatActivity {
     private DatabaseReference mDatabase;
     private ListView eventListView;
     private ArrayList<String> eventArrayList = new ArrayList<String>();
-    private EditText eventFilterEditText;
     private ArrayAdapter<String> arrayAdapter;
+    private EditText eventFilterEditText;
+    private ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -35,6 +37,10 @@ public class EventListActivity extends AppCompatActivity {
         mDatabase = FirebaseDatabase.getInstance().getReference().child("Event");
         eventListView = (ListView) findViewById(R.id.eventListView);
         eventFilterEditText = (EditText) findViewById(R.id.eventFilterEditText);
+        progressDialog = new ProgressDialog(this);
+
+        progressDialog.setMessage("Events are loading...");
+        progressDialog.show();
 
         arrayAdapter = new ArrayAdapter<String>(EventListActivity.this, android.R.layout.simple_list_item_1, eventArrayList);
         eventListView.setAdapter(arrayAdapter);
@@ -45,6 +51,7 @@ public class EventListActivity extends AppCompatActivity {
                 String eventName = dataSnapshot.getKey();
                 eventArrayList.add(eventName);
                 arrayAdapter.notifyDataSetChanged();
+                progressDialog.dismiss();
             }
 
             @Override
