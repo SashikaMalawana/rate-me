@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -18,6 +19,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.squareup.picasso.Picasso;
 
 public class CreateEventActivity extends AppCompatActivity {
 
@@ -35,6 +37,9 @@ public class CreateEventActivity extends AppCompatActivity {
     private static final int GALLERY_INTENT = 2;
     private ProgressDialog mProgressDialog;
 
+    private ImageView mImageView;
+    private static final int CAMERA_REQUEST_CODE = 1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,6 +56,8 @@ public class CreateEventActivity extends AppCompatActivity {
         mStorage = FirebaseStorage.getInstance().getReference();
         mImageSelect = (Button) findViewById(R.id.selectImageButton);
         mProgressDialog = new ProgressDialog(this);
+
+        mImageView = (ImageView) findViewById(R.id.imageView);
 
         storeButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -142,8 +149,10 @@ public class CreateEventActivity extends AppCompatActivity {
             filepath.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                    Toast.makeText(CreateEventActivity.this, "Upload done", Toast.LENGTH_LONG).show();
                     mProgressDialog.dismiss();
+                    Uri downloadUri = taskSnapshot.getDownloadUrl();
+                    Picasso.with(CreateEventActivity.this).load(downloadUri).fit().centerCrop().into(mImageView);
+                    Toast.makeText(CreateEventActivity.this, "Upload done", Toast.LENGTH_LONG).show();
                 }
             });
 
