@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -33,12 +34,9 @@ public class CreateEventActivity extends AppCompatActivity {
     private EditText genreEditText;
 
     private StorageReference mStorage;
-    private Button mImageSelect;
+    private ImageView mImageView;
     private static final int GALLERY_INTENT = 2;
     private ProgressDialog mProgressDialog;
-
-    private ImageView mImageView;
-    private static final int CAMERA_REQUEST_CODE = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,10 +52,8 @@ public class CreateEventActivity extends AppCompatActivity {
         genreEditText = (EditText) findViewById(R.id.genreField);
 
         mStorage = FirebaseStorage.getInstance().getReference();
-        mImageSelect = (Button) findViewById(R.id.selectImageButton);
-        mProgressDialog = new ProgressDialog(this);
-
         mImageView = (ImageView) findViewById(R.id.imageView);
+        mProgressDialog = new ProgressDialog(this);
 
         storeButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -124,7 +120,7 @@ public class CreateEventActivity extends AppCompatActivity {
             }
         });
 
-        mImageSelect.setOnClickListener(new View.OnClickListener() {
+        mImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(Intent.ACTION_PICK);
@@ -132,7 +128,6 @@ public class CreateEventActivity extends AppCompatActivity {
                 startActivityForResult(intent, GALLERY_INTENT);
             }
         });
-
     }
 
     @Override
@@ -145,14 +140,17 @@ public class CreateEventActivity extends AppCompatActivity {
             mProgressDialog.show();
 
             Uri uri = data.getData();
-            StorageReference filepath = mStorage.child("photos").child(uri.getLastPathSegment());
+            Picasso.with(CreateEventActivity.this).load(uri).fit().centerCrop().into(mImageView);
+
+            EditText eventNameTextView = (EditText) findViewById(R.id.eventNameLongField);
+            String eventName = eventNameTextView.getText().toString().trim();
+
+            StorageReference filepath = mStorage.child("Images").child("Events").child(eventName).child(uri.getLastPathSegment());
             filepath.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                     mProgressDialog.dismiss();
-                    Uri downloadUri = taskSnapshot.getDownloadUrl();
-                    Picasso.with(CreateEventActivity.this).load(downloadUri).fit().centerCrop().into(mImageView);
-                    Toast.makeText(CreateEventActivity.this, "Upload done", Toast.LENGTH_LONG).show();
+                    Toast.makeText(CreateEventActivity.this, "Upload finished.", Toast.LENGTH_LONG).show();
                 }
             });
 
