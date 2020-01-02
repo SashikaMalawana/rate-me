@@ -69,68 +69,75 @@ public class CreateEventActivity extends AppCompatActivity {
                     mDatabase.child(eventNameShort);
                     mDatabaseEvent = mDatabase.child(eventNameShort);
 
-                    try {
+                    if (mImageView.getDrawable() != null) {
 
-                        mDatabaseEvent.child("Event Name").setValue(eventNameLong).addOnCompleteListener(new OnCompleteListener<Void>() {
-                            @Override
-                            public void onComplete(@NonNull Task<Void> task) {
-                                if(task.isSuccessful()) {
-                                    Toast.makeText(CreateEventActivity.this, "Event Name is stored", Toast.LENGTH_SHORT).show();
+                        try {
+
+                            mDatabaseEvent.child("Event Name").setValue(eventNameLong).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    if(task.isSuccessful()) {
+                                        Toast.makeText(CreateEventActivity.this, "Event Name is stored", Toast.LENGTH_SHORT).show();
+                                    }
+                                    else {
+                                        Toast.makeText(CreateEventActivity.this, "Event name is not stored", Toast.LENGTH_SHORT).show();
+                                    }
                                 }
-                                else {
-                                    Toast.makeText(CreateEventActivity.this, "Event name is not stored", Toast.LENGTH_SHORT).show();
+                            });
+                            mDatabaseEvent.child("Country Of Origin").setValue(countryOfOrigin).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    if(task.isSuccessful()) {
+                                        Toast.makeText(CreateEventActivity.this, "Country Of Origin is stored", Toast.LENGTH_SHORT).show();
+                                    }
+                                    else {
+                                        Toast.makeText(CreateEventActivity.this, "Country Of Origin is not stored", Toast.LENGTH_SHORT).show();
+                                    }
                                 }
-                            }
-                        });
-                        mDatabaseEvent.child("Country Of Origin").setValue(countryOfOrigin).addOnCompleteListener(new OnCompleteListener<Void>() {
-                            @Override
-                            public void onComplete(@NonNull Task<Void> task) {
-                                if(task.isSuccessful()) {
-                                    Toast.makeText(CreateEventActivity.this, "Country Of Origin is stored", Toast.LENGTH_SHORT).show();
+                            });
+                            mDatabaseEvent.child("Original Language").setValue(originalLanguage).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    if(task.isSuccessful()) {
+                                        Toast.makeText(CreateEventActivity.this, "Original Language is stored", Toast.LENGTH_SHORT).show();
+                                    }
+                                    else {
+                                        Toast.makeText(CreateEventActivity.this, "Original Language is not stored", Toast.LENGTH_SHORT).show();
+                                    }
                                 }
-                                else {
-                                    Toast.makeText(CreateEventActivity.this, "Country Of Origin is not stored", Toast.LENGTH_SHORT).show();
+                            });
+                            mDatabaseEvent.child("Genre").setValue(genre).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    if(task.isSuccessful()) {
+                                        Toast.makeText(CreateEventActivity.this, "Genre is stored", Toast.LENGTH_SHORT).show();
+                                    }
+                                    else {
+                                        Toast.makeText(CreateEventActivity.this, "Genre is not stored", Toast.LENGTH_SHORT).show();
+                                    }
                                 }
-                            }
-                        });
-                        mDatabaseEvent.child("Original Language").setValue(originalLanguage).addOnCompleteListener(new OnCompleteListener<Void>() {
-                            @Override
-                            public void onComplete(@NonNull Task<Void> task) {
-                                if(task.isSuccessful()) {
-                                    Toast.makeText(CreateEventActivity.this, "Original Language is stored", Toast.LENGTH_SHORT).show();
-                                }
-                                else {
-                                    Toast.makeText(CreateEventActivity.this, "Original Language is not stored", Toast.LENGTH_SHORT).show();
-                                }
-                            }
-                        });
-                        mDatabaseEvent.child("Genre").setValue(genre).addOnCompleteListener(new OnCompleteListener<Void>() {
-                            @Override
-                            public void onComplete(@NonNull Task<Void> task) {
-                                if(task.isSuccessful()) {
-                                    Toast.makeText(CreateEventActivity.this, "Genre is stored", Toast.LENGTH_SHORT).show();
-                                }
-                                else {
-                                    Toast.makeText(CreateEventActivity.this, "Genre is not stored", Toast.LENGTH_SHORT).show();
-                                }
-                            }
-                        });
+                            });
+
+                            eventNameShortEditText.setText("");
+                            eventNameLongEditText.setText("");
+                            countryOfOriginEditText.setText("");
+                            originalLaguageEditText.setText("");
+                            genreEditText.setText("");
+
+                        }
+                        catch (Exception exception) {
+                            System.out.println(exception.toString());
+                        }
 
                     }
-                    catch (Exception exception) {
-                        System.out.println(exception.toString());
+                    else {
+                        Toast.makeText(CreateEventActivity.this, "Empty event image is not allowed", Toast.LENGTH_SHORT).show();
                     }
 
                 }
                 else {
-                    Toast.makeText(CreateEventActivity.this, "Empty Fields are not allowed", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(CreateEventActivity.this, "Empty fields are not allowed", Toast.LENGTH_SHORT).show();
                 }
-
-                eventNameShortEditText.setText("");
-                eventNameLongEditText.setText("");
-                countryOfOriginEditText.setText("");
-                originalLaguageEditText.setText("");
-                genreEditText.setText("");
 
             }
         });
@@ -169,7 +176,7 @@ public class CreateEventActivity extends AppCompatActivity {
                         @Override
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                             mProgressDialog.dismiss();
-                            Toast.makeText(CreateEventActivity.this, "Upload finished.", Toast.LENGTH_LONG).show();
+                            Toast.makeText(CreateEventActivity.this, "Upload finished", Toast.LENGTH_LONG).show();
 
                             Uri downloadUrl = taskSnapshot.getDownloadUrl();
                             String downloadUrlStr = downloadUrl.toString();
