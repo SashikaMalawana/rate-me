@@ -58,7 +58,8 @@ public class ConfigProperty {
         progressDialog.show();
 
         Uri uri = data.getData();
-        Picasso.with(currentContext).load(uri).fit().centerCrop().into(imageView);
+//        Picasso.with(currentContext).load(uri).fit().centerCrop().into(imageView);
+        Picasso.get().load(uri).fit().centerCrop().into(imageView);
 
         StorageReference filepath = mStorage.child("Event").child(uri.getLastPathSegment());
         filepath.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
