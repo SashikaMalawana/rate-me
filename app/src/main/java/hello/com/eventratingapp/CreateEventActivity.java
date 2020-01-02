@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -136,11 +137,11 @@ public class CreateEventActivity extends AppCompatActivity {
 
         if (requestCode == GALLERY_INTENT && resultCode == RESULT_OK) {
 
+            Uri uri = data.getData();
+            Picasso.get().load(uri).fit().centerCrop().into(mImageView);
+
             mProgressDialog.setMessage("Uploading...");
             mProgressDialog.show();
-
-            Uri uri = data.getData();
-            Picasso.with(CreateEventActivity.this).load(uri).fit().centerCrop().into(mImageView);
 
             EditText eventNameTextView = (EditText) findViewById(R.id.eventNameLongField);
             String eventName = eventNameTextView.getText().toString().trim();
@@ -151,6 +152,13 @@ public class CreateEventActivity extends AppCompatActivity {
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                     mProgressDialog.dismiss();
                     Toast.makeText(CreateEventActivity.this, "Upload finished.", Toast.LENGTH_LONG).show();
+
+                    Uri downloadUrl = taskSnapshot.getDownloadUrl();
+                    String downloadUrlStr = downloadUrl.toString();
+                    EditText eventNameShort = (EditText) findViewById(R.id.eventNameShortField);
+                    String eventNameShortGet = eventNameShort.getText().toString().trim();
+                    DatabaseReference imageToStore = FirebaseDatabase.getInstance().getReference().child("Event").child(eventNameShortGet).child("imageUrl");
+                    imageToStore.setValue(downloadUrlStr);
                 }
             });
 
