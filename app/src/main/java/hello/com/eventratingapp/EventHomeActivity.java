@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.google.firebase.database.DataSnapshot;
@@ -13,6 +14,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.squareup.picasso.Picasso;
 
 public class EventHomeActivity extends AppCompatActivity {
 
@@ -25,6 +28,8 @@ public class EventHomeActivity extends AppCompatActivity {
     private Button subscribeEventButton;
     private String eventForSubscribe;
     private Button competitorListButton;
+
+    private ImageView eventHomeImageView;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -39,6 +44,8 @@ public class EventHomeActivity extends AppCompatActivity {
         genreTextView = (TextView) findViewById(R.id.genreTextView);
         subscribeEventButton = (Button) findViewById(R.id.subscribeEventButton);
         competitorListButton = (Button) findViewById(R.id.competitorListButton);
+
+        eventHomeImageView = (ImageView) findViewById(R.id.eventHomeImageView);
 
         Intent intent = getIntent();
         final String clickedListViewItem = intent.getStringExtra("clickedItem");
@@ -115,6 +122,19 @@ public class EventHomeActivity extends AppCompatActivity {
                 Intent intent = new Intent(EventHomeActivity.this, EventCompetitorListActivity.class);
                 intent.putExtra("eventName", clickedListViewItem);
                 startActivity(intent);
+            }
+        });
+
+        DatabaseReference imagePath = FirebaseDatabase.getInstance().getReference().child("Event").child(clickedListViewItem).child("imageUrl");
+        imagePath.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                String link = dataSnapshot.getValue().toString();
+                Picasso.get().load(link).into(eventHomeImageView);
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
             }
         });
 
