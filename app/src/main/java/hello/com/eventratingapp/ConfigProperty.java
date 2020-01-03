@@ -5,9 +5,15 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
@@ -69,6 +75,24 @@ public class ConfigProperty {
                 Toast.makeText(currentContext, "Upload done", Toast.LENGTH_LONG).show();
             }
         });
+    }
+
+    public static void setEventTextView (String clickedListViewItem, String childProperty, final TextView elementTextView) {
+
+        DatabaseReference mDatabaseEventName = FirebaseDatabase.getInstance().getReference().child("Event").child(clickedListViewItem).child(childProperty);
+        mDatabaseEventName.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                String name = dataSnapshot.getValue().toString();
+                elementTextView.setText(name);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
     }
 
 }
