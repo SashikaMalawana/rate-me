@@ -79,8 +79,8 @@ public class ConfigProperty {
 
     public static void setEventTextView (String clickedListViewItem, String childProperty, final TextView elementTextView) {
 
-        DatabaseReference mDatabaseEventName = FirebaseDatabase.getInstance().getReference().child("Event").child(clickedListViewItem).child(childProperty);
-        mDatabaseEventName.addValueEventListener(new ValueEventListener() {
+        DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference().child("Event").child(clickedListViewItem).child(childProperty);
+        mDatabase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 String name = dataSnapshot.getValue().toString();
@@ -93,6 +93,23 @@ public class ConfigProperty {
             }
         });
 
+    }
+
+    public static void setCompetitorTextView(String clickedListViewItem, String childProperty, final TextView elementTextView) {
+
+        DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference().child("Event").child(clickedListViewItem).child("Competitor").child(childProperty);
+        mDatabase.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                String name = dataSnapshot.getValue().toString().trim();
+                elementTextView.setText(name);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 
 }
