@@ -28,6 +28,7 @@ public class EventHomeActivity extends AppCompatActivity {
     private Button subscribeEventButton;
     private String eventForSubscribe;
     private Button competitorListButton;
+    private Button createCompetitorButton;
 
     private ImageView eventHomeImageView;
 
@@ -44,6 +45,7 @@ public class EventHomeActivity extends AppCompatActivity {
         genreTextView = (TextView) findViewById(R.id.genreTextView);
         subscribeEventButton = (Button) findViewById(R.id.subscribeEventButton);
         competitorListButton = (Button) findViewById(R.id.competitorListButton);
+        createCompetitorButton = (Button) findViewById(R.id.createCompetitorBtn);
 
         eventHomeImageView = (ImageView) findViewById(R.id.eventHomeImageView);
 
@@ -113,6 +115,14 @@ public class EventHomeActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Toast.makeText(EventHomeActivity.this, "You subscribed " +eventForSubscribe, Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        createCompetitorButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(EventHomeActivity.this, CreateCompetitorActivity.class);
+                startActivity(intent);
             }
         });
 
