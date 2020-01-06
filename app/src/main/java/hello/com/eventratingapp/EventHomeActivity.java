@@ -122,6 +122,7 @@ public class EventHomeActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(EventHomeActivity.this, CreateCompetitorActivity.class);
+                intent.putExtra("eventName", clickedListViewItem);
                 startActivity(intent);
             }
         });
