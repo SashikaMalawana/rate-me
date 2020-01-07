@@ -160,11 +160,7 @@ public class CreateCompetitorActivity extends AppCompatActivity {
                 mRatingReference.child("Weighted Average Rating").setValue(0);
                 mRatingReference.child("Reviews").setValue(null);
 
-//                when press back button move to create competitor page. it include to step queue
-//                Toast.makeText(CreateCompetitorActivity.this, competitorName +" Competitor is successfully crated", Toast.LENGTH_SHORT).show();
-//                Intent intent = new Intent(CreateCompetitorActivity.this, EventHomeActivity.class);
-//                intent.putExtra("clickedItem", eventNameFromIntent);
-//                startActivity(intent);
+                finish();
 
             }
         });
