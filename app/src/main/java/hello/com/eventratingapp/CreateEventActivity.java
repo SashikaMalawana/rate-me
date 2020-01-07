@@ -133,7 +133,7 @@ public class CreateEventActivity extends AppCompatActivity {
 
                         try {
                             AlertDialog.Builder builder = new AlertDialog.Builder(CreateEventActivity.this);
-                            builder.setMessage("You have successfully create an event :)");
+                            builder.setMessage("You have successfully create " +eventNameLong +" event :)");
                             builder.setNeutralButton("Ok", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
