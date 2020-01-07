@@ -60,7 +60,7 @@ public class CreateEventActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                String eventNameShort = eventNameShortEditText.getText().toString().trim();
+                final String eventNameShort = eventNameShortEditText.getText().toString().trim();
                 String eventNameLong = eventNameLongEditText.getText().toString().trim();
                 String countryOfOrigin = countryOfOriginEditText.getText().toString().trim();
                 String originalLanguage = originalLaguageEditText.getText().toString().trim();
@@ -138,6 +138,9 @@ public class CreateEventActivity extends AppCompatActivity {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     finish();
+                                    Intent intent = new Intent(CreateEventActivity.this, EventHomeActivity.class);
+                                    intent.putExtra("clickedItem", eventNameShort);
+                                    startActivity(intent);
                                 }
                             });
                             builder.create().show();
