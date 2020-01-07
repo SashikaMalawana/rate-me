@@ -1,6 +1,8 @@
 package hello.com.eventratingapp;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -124,6 +126,21 @@ public class CreateEventActivity extends AppCompatActivity {
                             originalLaguageEditText.setText("");
                             genreEditText.setText("");
 
+                        }
+                        catch (Exception exception) {
+                            System.out.println(exception.toString());
+                        }
+
+                        try {
+                            AlertDialog.Builder builder = new AlertDialog.Builder(CreateEventActivity.this);
+                            builder.setMessage("You have successfully create an event :)");
+                            builder.setNeutralButton("Ok", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    finish();
+                                }
+                            });
+                            builder.create().show();
                         }
                         catch (Exception exception) {
                             System.out.println(exception.toString());
