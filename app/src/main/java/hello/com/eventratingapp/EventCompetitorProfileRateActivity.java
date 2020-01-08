@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -18,6 +19,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 
 public class EventCompetitorProfileRateActivity extends AppCompatActivity {
 
@@ -33,6 +35,8 @@ public class EventCompetitorProfileRateActivity extends AppCompatActivity {
     private TextView ratingScaleInnerTextView;
     private EditText reviewEditText;
     private Button submitRatingReviewButton;
+
+    private ImageView eventCompetitorProfileRateImageView;
 
     String currentEventFromIntent;
     String currentCompetitorFromIntent;
@@ -54,6 +58,8 @@ public class EventCompetitorProfileRateActivity extends AppCompatActivity {
 
         reviewEditText = (EditText) findViewById(R.id.reviewEditText);
         submitRatingReviewButton = (Button) findViewById(R.id.submitRatingReviewButton);
+
+        eventCompetitorProfileRateImageView = (ImageView) findViewById(R.id.eventCompetitorProfileRateImageView);
 
         Intent intent = getIntent();
         currentEventFromIntent = intent.getStringExtra("currentEvent");
@@ -169,6 +175,19 @@ public class EventCompetitorProfileRateActivity extends AppCompatActivity {
 
                 userInnerRatingBar.setRating(0);
                 reviewEditText.setText("");
+            }
+        });
+
+        DatabaseReference imagePath = FirebaseDatabase.getInstance().getReference().child("Event").child(currentEventFromIntent).child("Event Competitors").child(currentCompetitorFromIntent).child("imageUrl");
+        imagePath.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                String link = dataSnapshot.getValue().toString();
+                Picasso.get().load(link).fit().centerCrop().into(eventCompetitorProfileRateImageView);
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
             }
         });
 
