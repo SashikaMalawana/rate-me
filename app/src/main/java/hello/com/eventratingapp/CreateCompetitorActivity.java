@@ -1,6 +1,8 @@
 package hello.com.eventratingapp;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -65,7 +67,7 @@ public class CreateCompetitorActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                String competitorName = competitorNameEditText.getText().toString().trim();
+                final String competitorName = competitorNameEditText.getText().toString().trim();
                 String dateOfBirth = dateOfBirthEditText.getText().toString().trim();
                 String hometown = hometownEditText.getText().toString().trim();
                 String performanceType = performanceTypeEditText.getText().toString().trim();
@@ -140,10 +142,47 @@ public class CreateCompetitorActivity extends AppCompatActivity {
                             performanceTypeEditText.setText("");
                             descriptionEditText.setText("");
 
+                            DatabaseReference mRatingReference = FirebaseDatabase.getInstance().getReference().child("Event").child(eventNameFromIntent).child("Event Competitors").child(competitorName).child("Rating");
+                            mRatingReference.child("No Of Ratings").setValue(0);
+                            mRatingReference.child("Total Rating Points").setValue(0);
+                            mRatingReference.child("Weighted Average Rating").setValue(0);
+                            mRatingReference.child("Reviews").setValue(null);
+
                         }
-                        catch (Exception exeption) {
-                            System.out.println(exeption.toString());
+                        catch (Exception exception) {
+                            System.out.println(exception.toString());
                         }
+
+                        try {
+                            AlertDialog.Builder myBuilder = new AlertDialog.Builder(CreateCompetitorActivity.this);
+                            myBuilder.setTitle("You have successfully create " +competitorName);
+                            myBuilder.setMessage("Do you want to create more competitors?");
+                            myBuilder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.cancel();
+//                                    finish();
+//                                    startActivity(getIntent());
+                                }
+                            });
+                            myBuilder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    finish();
+                                    Intent intent = new Intent(CreateCompetitorActivity.this, EventCompetitorProfileActivity.class);
+                                    intent.putExtra("currentEvent", eventNameFromIntent);
+                                    intent.putExtra("clickedItem", competitorName);
+                                    startActivity(intent);
+                                }
+                            });
+                            AlertDialog alertDialog = myBuilder.create();
+                            alertDialog.show();
+//                            myBuilder.create().show();
+                        }
+                        catch (Exception exception) {
+                            System.out.println(exception.toString());
+                        }
+
                     }
                     else {
                         Toast.makeText(CreateCompetitorActivity.this, "Empty competitor image is not allowed", Toast.LENGTH_SHORT).show();
@@ -153,14 +192,6 @@ public class CreateCompetitorActivity extends AppCompatActivity {
                 else {
                     Toast.makeText(CreateCompetitorActivity.this, "Empty fields are not allowed", Toast.LENGTH_SHORT).show();
                 }
-
-                DatabaseReference mRatingReference = FirebaseDatabase.getInstance().getReference().child("Event").child(eventNameFromIntent).child("Event Competitors").child(competitorName).child("Rating");
-                mRatingReference.child("No Of Ratings").setValue(0);
-                mRatingReference.child("Total Rating Points").setValue(0);
-                mRatingReference.child("Weighted Average Rating").setValue(0);
-                mRatingReference.child("Reviews").setValue(null);
-
-                finish();
 
             }
         });
@@ -195,7 +226,7 @@ public class CreateCompetitorActivity extends AppCompatActivity {
                     mProgressDialog.setMessage("Uploading");
                     mProgressDialog.show();
 
-                    StorageReference filepath = mStorage.child("images").child("Competitor").child(competitorName).child(uri.getLastPathSegment());
+                    StorageReference filepath = mStorage.child("Images").child("Events").child(eventNameFromIntent).child("Competitors").child(competitorName).child(uri.getLastPathSegment());
                     filepath.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
