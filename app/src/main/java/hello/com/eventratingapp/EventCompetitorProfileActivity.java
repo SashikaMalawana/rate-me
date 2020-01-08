@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -15,6 +16,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 
 public class EventCompetitorProfileActivity extends AppCompatActivity {
 
@@ -30,6 +32,8 @@ public class EventCompetitorProfileActivity extends AppCompatActivity {
     private TextView weightedAverageRatingTextView;
     private TextView noOfRatingsTextView;
     private Button rateCompetitorButton;
+
+    private ImageView eventCompetitorProfileImageView;
 
     String currentEventFromIntent;
     String clickedListViewItem;
@@ -50,6 +54,8 @@ public class EventCompetitorProfileActivity extends AppCompatActivity {
         weightedAverageRatingTextView = (TextView) findViewById(R.id.weightedAverageRatingTextView);
         noOfRatingsTextView = (TextView) findViewById(R.id.noOfRatingsTextView);
         rateCompetitorButton = (Button) findViewById(R.id.rateCompetitorButton);
+
+        eventCompetitorProfileImageView = (ImageView) findViewById(R.id.eventCompetitorProfileImageView);
 
         Intent intent = getIntent();
         currentEventFromIntent = intent.getStringExtra("currentEvent");
@@ -164,6 +170,19 @@ public class EventCompetitorProfileActivity extends AppCompatActivity {
                 intent.putExtra("currentEvent", currentEventFromIntent);
                 intent.putExtra("currentCompetitor", clickedListViewItem);
                 startActivity(intent);
+            }
+        });
+
+        DatabaseReference imagePath = FirebaseDatabase.getInstance().getReference().child("Event").child(currentEventFromIntent).child("Event Competitors").child(clickedListViewItem).child("imageUrl");
+        imagePath.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                String link = dataSnapshot.getValue().toString();
+                Picasso.get().load(link).fit().centerCrop().into(eventCompetitorProfileImageView);
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
             }
         });
 
