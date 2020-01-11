@@ -31,11 +31,11 @@ public class CreateEventActivity extends AppCompatActivity {
     private EditText eventNameShortEditText;
     private EditText eventNameLongEditText;
     private EditText countryOfOriginEditText;
-    private EditText originalLaguageEditText;
+    private EditText originalLanguageEditText;
     private EditText genreEditText;
 
     private StorageReference mStorage;
-    private ImageView mImageView;
+    private ImageView createEventImageView;
     private static final int GALLERY_INTENT = 2;
     private ProgressDialog mProgressDialog;
 
@@ -49,11 +49,11 @@ public class CreateEventActivity extends AppCompatActivity {
         eventNameShortEditText = (EditText) findViewById(R.id.eventNameShortField);
         eventNameLongEditText = (EditText) findViewById(R.id.eventNameLongField);
         countryOfOriginEditText = (EditText) findViewById(R.id.countryOfOriginField);
-        originalLaguageEditText = (EditText) findViewById(R.id.originalLanguageField);
+        originalLanguageEditText = (EditText) findViewById(R.id.originalLanguageField);
         genreEditText = (EditText) findViewById(R.id.genreField);
 
         mStorage = FirebaseStorage.getInstance().getReference();
-        mImageView = (ImageView) findViewById(R.id.imageView);
+        createEventImageView = (ImageView) findViewById(R.id.createEventImageView);
         mProgressDialog = new ProgressDialog(this);
 
         storeButton.setOnClickListener(new View.OnClickListener() {
@@ -63,7 +63,7 @@ public class CreateEventActivity extends AppCompatActivity {
                 final String eventNameShort = eventNameShortEditText.getText().toString().trim();
                 String eventNameLong = eventNameLongEditText.getText().toString().trim();
                 String countryOfOrigin = countryOfOriginEditText.getText().toString().trim();
-                String originalLanguage = originalLaguageEditText.getText().toString().trim();
+                String originalLanguage = originalLanguageEditText.getText().toString().trim();
                 String genre = genreEditText.getText().toString().trim();
 
                 if(!eventNameShort.isEmpty() && !eventNameLong.isEmpty() && !countryOfOrigin.isEmpty() && !originalLanguage.isEmpty() && !genre.isEmpty()) {
@@ -71,7 +71,7 @@ public class CreateEventActivity extends AppCompatActivity {
                     mDatabase.child(eventNameShort);
                     mDatabaseEvent = mDatabase.child(eventNameShort);
 
-                    if (mImageView.getDrawable() != null) {
+                    if (createEventImageView.getDrawable() != null) {
 
                         try {
 
@@ -123,7 +123,7 @@ public class CreateEventActivity extends AppCompatActivity {
                             eventNameShortEditText.setText("");
                             eventNameLongEditText.setText("");
                             countryOfOriginEditText.setText("");
-                            originalLaguageEditText.setText("");
+                            originalLanguageEditText.setText("");
                             genreEditText.setText("");
 
                         }
@@ -162,7 +162,7 @@ public class CreateEventActivity extends AppCompatActivity {
             }
         });
 
-        mImageView.setOnClickListener(new View.OnClickListener() {
+        createEventImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(Intent.ACTION_PICK);
@@ -186,7 +186,7 @@ public class CreateEventActivity extends AppCompatActivity {
                 try {
 
                     Uri uri = data.getData();
-                    Picasso.get().load(uri).fit().centerCrop().into(mImageView);
+                    Picasso.get().load(uri).fit().centerCrop().into(createEventImageView);
 
                     mProgressDialog.setMessage("Uploading...");
                     mProgressDialog.show();

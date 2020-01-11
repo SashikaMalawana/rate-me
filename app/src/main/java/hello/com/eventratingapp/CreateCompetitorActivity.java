@@ -35,11 +35,9 @@ public class CreateCompetitorActivity extends AppCompatActivity {
     private EditText descriptionEditText;
 
     private StorageReference mStorage;
-    private Button selectCompetitorImageButton;
+    private ImageView competitorImageView;
     private static final int GALLERY_INTENT = 2;
     private ProgressDialog mProgressDialog;
-
-    private ImageView competitorImageView;
 
     String eventNameFromIntent = null;
 
