@@ -117,12 +117,25 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
             android:layout_marginTop="20dp"
-            android:text="Clicke to create"
+            android:text="Click to create"
+            android:textStyle="bold"
             android:textAlignment="center"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.979"
             tools:layout_editor_absoluteX="0dp" />
+
+        <Spinner
+            android:id="@+id/eventSpinner"
+            android:layout_width="348dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.853" />
 
     </android.support.constraint.ConstraintLayout>
 

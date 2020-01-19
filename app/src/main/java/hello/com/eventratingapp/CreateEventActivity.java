@@ -9,19 +9,26 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.Toast;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
+
+import java.util.ArrayList;
 
 public class CreateEventActivity extends AppCompatActivity {
 
@@ -33,6 +40,11 @@ public class CreateEventActivity extends AppCompatActivity {
     private EditText countryOfOriginEditText;
     private EditText originalLanguageEditText;
     private EditText genreEditText;
+
+    private Spinner eventSpinner;
+    private String languageList[] = {"English", "French", "Spanish", "German", "Italian", "Chines", "Japenes", "Korean", "Hindi", "Tamil", "Telugu", "Malayalam", "Panjab", "Gujarati", "Sinhala"};
+    private ArrayList<String> languageArrayList = new ArrayList<String>();
+    String languageFromSpinner = null;
 
     private StorageReference mStorage;
     private ImageView createEventImageView;
@@ -52,9 +64,44 @@ public class CreateEventActivity extends AppCompatActivity {
         originalLanguageEditText = (EditText) findViewById(R.id.originalLanguageField);
         genreEditText = (EditText) findViewById(R.id.genreField);
 
+        eventSpinner = (Spinner) findViewById(R.id.eventSpinner);
+
         mStorage = FirebaseStorage.getInstance().getReference();
         createEventImageView = (ImageView) findViewById(R.id.createEventImageView);
         mProgressDialog = new ProgressDialog(this);
+
+        final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1, languageArrayList);
+        eventSpinner.setAdapter(arrayAdapter);
+
+        DatabaseReference languageDatabase = FirebaseDatabase.getInstance().getReference().child("Language");
+        languageDatabase.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                languageFromSpinner = dataSnapshot.getValue().toString();
+                languageArrayList.add(languageFromSpinner);
+                arrayAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
 
         storeButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -66,7 +113,7 @@ public class CreateEventActivity extends AppCompatActivity {
                 String originalLanguage = originalLanguageEditText.getText().toString().trim();
                 String genre = genreEditText.getText().toString().trim();
 
-                if(!eventNameShort.isEmpty() && !eventNameLong.isEmpty() && !countryOfOrigin.isEmpty() && !originalLanguage.isEmpty() && !genre.isEmpty()) {
+                if(!eventNameShort.isEmpty() && !eventNameLong.isEmpty() && !countryOfOrigin.isEmpty() && !languageFromSpinner.isEmpty() && !genre.isEmpty()) {
 
                     mDatabase.child(eventNameShort);
                     mDatabaseEvent = mDatabase.child(eventNameShort);
@@ -97,7 +144,7 @@ public class CreateEventActivity extends AppCompatActivity {
                                     }
                                 }
                             });
-                            mDatabaseEvent.child("Original Language").setValue(originalLanguage).addOnCompleteListener(new OnCompleteListener<Void>() {
+                            mDatabaseEvent.child("Original Language").setValue(languageFromSpinner).addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
                                     if(task.isSuccessful()) {
