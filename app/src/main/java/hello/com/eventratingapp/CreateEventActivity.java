@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -14,6 +15,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -217,6 +219,21 @@ public class CreateEventActivity extends AppCompatActivity {
                 startActivityForResult(intent, GALLERY_INTENT);
             }
         });
+
+        final TextView countDownTimerTextView = (TextView) findViewById(R.id.countDownTimer);
+        new CountDownTimer(5000, 1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                countDownTimerTextView.setText("Time left : " +millisUntilFinished/1000 +"s");
+            }
+
+            @Override
+            public void onFinish() {
+                countDownTimerTextView.setText("Time is up!");
+            }
+        }.start();
+        //ConfigProperty.setCountDownTimer(countDownTimerTextView, 10000, 1000);
+
     }
 
     @Override
