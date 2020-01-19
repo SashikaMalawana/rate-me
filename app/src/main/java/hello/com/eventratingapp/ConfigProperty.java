@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.CountDownTimer;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -110,6 +111,22 @@ public class ConfigProperty {
 
             }
         });
+    }
+
+    public static void setCountDownTimer(final TextView countDownTimerTextView, int duration, int stepSize) {
+
+        new CountDownTimer(duration, stepSize) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                countDownTimerTextView.setText("Time left : " +millisUntilFinished/1000 +"s");
+            }
+
+            @Override
+            public void onFinish() {
+                countDownTimerTextView.setText("Time is up");
+            }
+        }.start();
+
     }
 
 }
