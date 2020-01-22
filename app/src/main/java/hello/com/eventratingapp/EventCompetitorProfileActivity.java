@@ -37,6 +37,7 @@ public class EventCompetitorProfileActivity extends AppCompatActivity {
 
     String currentEventFromIntent;
     String clickedListViewItem;
+    String currentFullEventFromIntent;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -60,10 +61,11 @@ public class EventCompetitorProfileActivity extends AppCompatActivity {
         Intent intent = getIntent();
         currentEventFromIntent = intent.getStringExtra("currentEvent");
         clickedListViewItem = intent.getStringExtra("clickedItem");
+        currentFullEventFromIntent = intent.getStringExtra("currentEventFull");
 
         eventCompetitorHeadName.setText(clickedListViewItem);
 
-        DatabaseReference mDatabaseCompetitorName = FirebaseDatabase.getInstance().getReference().child("Event").child(currentEventFromIntent).child("Event Competitors").child(clickedListViewItem).child("Competitor Name");
+        DatabaseReference mDatabaseCompetitorName = FirebaseDatabase.getInstance().getReference().child("Events").child(currentEventFromIntent).child("Event Competitors").child(clickedListViewItem).child("Competitor Name");
         mDatabaseCompetitorName.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -77,7 +79,7 @@ public class EventCompetitorProfileActivity extends AppCompatActivity {
             }
         });
 
-        DatabaseReference mDatabaseDateOfBirth = FirebaseDatabase.getInstance().getReference().child("Event").child(currentEventFromIntent).child("Event Competitors").child(clickedListViewItem).child("Date Of Birth");
+        DatabaseReference mDatabaseDateOfBirth = FirebaseDatabase.getInstance().getReference().child("Events").child(currentEventFromIntent).child("Event Competitors").child(clickedListViewItem).child("Date Of Birth");
         mDatabaseDateOfBirth.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -91,7 +93,7 @@ public class EventCompetitorProfileActivity extends AppCompatActivity {
             }
         });
 
-        DatabaseReference mDatabseHometown = FirebaseDatabase.getInstance().getReference().child("Event").child(currentEventFromIntent).child("Event Competitors").child(clickedListViewItem).child("Hometown");
+        DatabaseReference mDatabseHometown = FirebaseDatabase.getInstance().getReference().child("Events").child(currentEventFromIntent).child("Event Competitors").child(clickedListViewItem).child("Hometown");
         mDatabseHometown.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -105,7 +107,7 @@ public class EventCompetitorProfileActivity extends AppCompatActivity {
             }
         });
 
-        DatabaseReference mDatabasePerformanceType = FirebaseDatabase.getInstance().getReference().child("Event").child(currentEventFromIntent).child("Event Competitors").child(clickedListViewItem).child("Performance Type");
+        DatabaseReference mDatabasePerformanceType = FirebaseDatabase.getInstance().getReference().child("Events").child(currentEventFromIntent).child("Event Competitors").child(clickedListViewItem).child("Performance Type");
         mDatabasePerformanceType.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -119,7 +121,7 @@ public class EventCompetitorProfileActivity extends AppCompatActivity {
             }
         });
 
-        DatabaseReference mDatabaseDescription = FirebaseDatabase.getInstance().getReference().child("Event").child(currentEventFromIntent).child("Event Competitors").child(clickedListViewItem).child("Description");
+        DatabaseReference mDatabaseDescription = FirebaseDatabase.getInstance().getReference().child("Events").child(currentEventFromIntent).child("Event Competitors").child(clickedListViewItem).child("Description");
         mDatabaseDescription.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -134,7 +136,7 @@ public class EventCompetitorProfileActivity extends AppCompatActivity {
         });
 
         //Handle ratings
-        DatabaseReference mDatabaseRatingPoint = FirebaseDatabase.getInstance().getReference().child("Event").child(currentEventFromIntent).child("Event Competitors").child(clickedListViewItem).child("Rating").child("Weighted Average Rating");
+        DatabaseReference mDatabaseRatingPoint = FirebaseDatabase.getInstance().getReference().child("Events").child(currentEventFromIntent).child("Event Competitors").child(clickedListViewItem).child("Ratings").child("Weighted Average Rating");
         mDatabaseRatingPoint.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -149,7 +151,7 @@ public class EventCompetitorProfileActivity extends AppCompatActivity {
             }
         });
 
-        DatabaseReference mDatabaseNoOfRating = FirebaseDatabase.getInstance().getReference().child("Event").child(currentEventFromIntent).child("Event Competitors").child(clickedListViewItem).child("Rating").child("No Of Ratings");
+        DatabaseReference mDatabaseNoOfRating = FirebaseDatabase.getInstance().getReference().child("Events").child(currentEventFromIntent).child("Event Competitors").child(clickedListViewItem).child("Ratings").child("No Of Ratings");
         mDatabaseNoOfRating.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -173,7 +175,7 @@ public class EventCompetitorProfileActivity extends AppCompatActivity {
             }
         });
 
-        DatabaseReference imagePath = FirebaseDatabase.getInstance().getReference().child("Event").child(currentEventFromIntent).child("Event Competitors").child(clickedListViewItem).child("imageUrl");
+        DatabaseReference imagePath = FirebaseDatabase.getInstance().getReference().child("Events").child(currentEventFromIntent).child("Event Competitors").child(clickedListViewItem).child("Image Url");
         imagePath.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {

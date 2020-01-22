@@ -67,7 +67,7 @@ public class EventCompetitorProfileRateActivity extends AppCompatActivity {
 
         eventCompetitorNameHeadRateTextView.setText(currentCompetitorFromIntent);
 
-        DatabaseReference mDatabaseCompetitorName = FirebaseDatabase.getInstance().getReference().child("Event").child(currentEventFromIntent).child("Event Competitors").child(currentCompetitorFromIntent).child("Competitor Name");
+        DatabaseReference mDatabaseCompetitorName = FirebaseDatabase.getInstance().getReference().child("Events").child(currentEventFromIntent).child("Event Competitors").child(currentCompetitorFromIntent).child("Competitor Name");
         mDatabaseCompetitorName.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -82,7 +82,7 @@ public class EventCompetitorProfileRateActivity extends AppCompatActivity {
         });
 
         //Handle ratings
-        DatabaseReference mDatabaseAverageRating = FirebaseDatabase.getInstance().getReference().child("Event").child(currentEventFromIntent).child("Event Competitors").child(currentCompetitorFromIntent).child("Rating").child("Weighted Average Rating");
+        DatabaseReference mDatabaseAverageRating = FirebaseDatabase.getInstance().getReference().child("Events").child(currentEventFromIntent).child("Event Competitors").child(currentCompetitorFromIntent).child("Ratings").child("Weighted Average Rating");
         mDatabaseAverageRating.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -97,7 +97,7 @@ public class EventCompetitorProfileRateActivity extends AppCompatActivity {
             }
         });
 
-        DatabaseReference mDatabaseNoOfRating = FirebaseDatabase.getInstance().getReference().child("Event").child(currentEventFromIntent).child("Event Competitors").child(currentCompetitorFromIntent).child("Rating").child("No Of Ratings");
+        DatabaseReference mDatabaseNoOfRating = FirebaseDatabase.getInstance().getReference().child("Events").child(currentEventFromIntent).child("Event Competitors").child(currentCompetitorFromIntent).child("Ratings").child("No Of Ratings");
         mDatabaseNoOfRating.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -160,7 +160,7 @@ public class EventCompetitorProfileRateActivity extends AppCompatActivity {
                 Toast.makeText(EventCompetitorProfileRateActivity.this, "Your rating value is " +userRatingString, Toast.LENGTH_SHORT).show();
 
                 String review = reviewEditText.getText().toString().trim();
-                DatabaseReference mDatabaseReview = FirebaseDatabase.getInstance().getReference().child("Event").child(currentEventFromIntent).child("Event Competitors").child(currentCompetitorFromIntent).child("Rating");
+                DatabaseReference mDatabaseReview = FirebaseDatabase.getInstance().getReference().child("Events").child(currentEventFromIntent).child("Event Competitors").child(currentCompetitorFromIntent).child("Ratings");
                 mDatabaseReview.child("Reviews").setValue(review).addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
@@ -178,7 +178,7 @@ public class EventCompetitorProfileRateActivity extends AppCompatActivity {
             }
         });
 
-        DatabaseReference imagePath = FirebaseDatabase.getInstance().getReference().child("Event").child(currentEventFromIntent).child("Event Competitors").child(currentCompetitorFromIntent).child("imageUrl");
+        DatabaseReference imagePath = FirebaseDatabase.getInstance().getReference().child("Events").child(currentEventFromIntent).child("Event Competitors").child(currentCompetitorFromIntent).child("Image Url");
         imagePath.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {

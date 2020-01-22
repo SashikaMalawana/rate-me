@@ -34,7 +34,7 @@ public class EventListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.event_list);
 
-        mDatabase = FirebaseDatabase.getInstance().getReference().child("Event");
+        mDatabase = FirebaseDatabase.getInstance().getReference().child("Events");
         eventListView = (ListView) findViewById(R.id.eventListView);
         eventFilterEditText = (EditText) findViewById(R.id.eventFilterEditText);
         progressDialog = new ProgressDialog(this);

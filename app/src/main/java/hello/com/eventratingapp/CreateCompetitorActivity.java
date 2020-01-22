@@ -40,6 +40,7 @@ public class CreateCompetitorActivity extends AppCompatActivity {
     private ProgressDialog mProgressDialog;
 
     String eventNameFromIntent = null;
+    String eventFullNameFromIntent = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +48,7 @@ public class CreateCompetitorActivity extends AppCompatActivity {
         setContentView(R.layout.create_competitor);
 
         storeButton = (Button) findViewById(R.id.dButton);
-        mDatabase = FirebaseDatabase.getInstance().getReference().child("Event");
+        mDatabase = FirebaseDatabase.getInstance().getReference().child("Events");
         competitorNameEditText = (EditText) findViewById(R.id.competitorNameField);
         dateOfBirthEditText = (EditText) findViewById(R.id.dateOfBirthField);
         hometownEditText = (EditText) findViewById(R.id.hometownField);
@@ -60,6 +61,7 @@ public class CreateCompetitorActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         eventNameFromIntent = intent.getStringExtra("eventName");
+        eventFullNameFromIntent = intent.getStringExtra("eventFullName");
 
         storeButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -140,7 +142,7 @@ public class CreateCompetitorActivity extends AppCompatActivity {
                             performanceTypeEditText.setText("");
                             descriptionEditText.setText("");
 
-                            DatabaseReference mRatingReference = FirebaseDatabase.getInstance().getReference().child("Event").child(eventNameFromIntent).child("Event Competitors").child(competitorName).child("Rating");
+                            DatabaseReference mRatingReference = FirebaseDatabase.getInstance().getReference().child("Events").child(eventNameFromIntent).child("Event Competitors").child(competitorName).child("Ratings");
                             mRatingReference.child("No Of Ratings").setValue(0);
                             mRatingReference.child("Total Rating Points").setValue(0);
                             mRatingReference.child("Weighted Average Rating").setValue(0);
@@ -170,6 +172,7 @@ public class CreateCompetitorActivity extends AppCompatActivity {
                                     Intent intent = new Intent(CreateCompetitorActivity.this, EventCompetitorProfileActivity.class);
                                     intent.putExtra("currentEvent", eventNameFromIntent);
                                     intent.putExtra("clickedItem", competitorName);
+                                    intent.putExtra("currentEventFull", eventFullNameFromIntent);
                                     startActivity(intent);
                                 }
                             });
@@ -224,7 +227,7 @@ public class CreateCompetitorActivity extends AppCompatActivity {
                     mProgressDialog.setMessage("Uploading");
                     mProgressDialog.show();
 
-                    StorageReference filepath = mStorage.child("Images").child("Events").child(eventNameFromIntent).child("Competitors").child(competitorName).child(uri.getLastPathSegment());
+                    StorageReference filepath = mStorage.child("Images").child("Events").child(eventFullNameFromIntent).child("Competitors").child(competitorName).child(uri.getLastPathSegment());
                     filepath.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
@@ -235,7 +238,7 @@ public class CreateCompetitorActivity extends AppCompatActivity {
                             String downloadUriStr = downloadUri.toString();
                             EditText competitorName = (EditText) findViewById(R.id.competitorNameField);
                             String competitorNameGet = competitorName.getText().toString().trim();
-                            DatabaseReference imageToStore = FirebaseDatabase.getInstance().getReference().child("Event").child(eventNameFromIntent).child("Event Competitors").child(competitorNameGet).child("imageUrl");
+                            DatabaseReference imageToStore = FirebaseDatabase.getInstance().getReference().child("Events").child(eventNameFromIntent).child("Event Competitors").child(competitorNameGet).child("Image Url");
                             imageToStore.setValue(downloadUriStr);
                         }
                     });

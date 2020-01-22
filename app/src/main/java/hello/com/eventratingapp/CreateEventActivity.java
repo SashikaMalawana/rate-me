@@ -59,7 +59,7 @@ public class CreateEventActivity extends AppCompatActivity {
         setContentView(R.layout.create_event);
 
         storeButton = (Button) findViewById(R.id.dButton);
-        mDatabase = FirebaseDatabase.getInstance().getReference().child("Event");
+        mDatabase = FirebaseDatabase.getInstance().getReference().child("Events");
         eventNameShortEditText = (EditText) findViewById(R.id.eventNameShortField);
         eventNameLongEditText = (EditText) findViewById(R.id.eventNameLongField);
         countryOfOriginEditText = (EditText) findViewById(R.id.countryOfOriginField);
@@ -75,7 +75,7 @@ public class CreateEventActivity extends AppCompatActivity {
         final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1, languageArrayList);
         eventSpinner.setAdapter(arrayAdapter);
 
-        DatabaseReference languageDatabase = FirebaseDatabase.getInstance().getReference().child("Language");
+        DatabaseReference languageDatabase = FirebaseDatabase.getInstance().getReference().child("Languages");
         languageDatabase.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
@@ -117,7 +117,6 @@ public class CreateEventActivity extends AppCompatActivity {
 
                 if(!eventNameShort.isEmpty() && !eventNameLong.isEmpty() && !countryOfOrigin.isEmpty() && !languageFromSpinner.isEmpty() && !genre.isEmpty()) {
 
-                    mDatabase.child(eventNameShort);
                     mDatabaseEvent = mDatabase.child(eventNameShort);
 
                     if (createEventImageView.getDrawable() != null) {
@@ -266,7 +265,7 @@ public class CreateEventActivity extends AppCompatActivity {
                             String downloadUrlStr = downloadUrl.toString();
                             EditText eventNameShort = (EditText) findViewById(R.id.eventNameShortField);
                             String eventNameShortGet = eventNameShort.getText().toString().trim();
-                            DatabaseReference imageToStore = FirebaseDatabase.getInstance().getReference().child("Event").child(eventNameShortGet).child("imageUrl");
+                            DatabaseReference imageToStore = FirebaseDatabase.getInstance().getReference().child("Events").child(eventNameShortGet).child("Image Url");
                             imageToStore.setValue(downloadUrlStr);
                         }
                     });

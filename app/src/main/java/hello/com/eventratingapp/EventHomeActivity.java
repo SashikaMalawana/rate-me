@@ -37,7 +37,7 @@ public class EventHomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.event_home);
 
-        mDatabase = FirebaseDatabase.getInstance().getReference().child("Event");
+        mDatabase = FirebaseDatabase.getInstance().getReference().child("Events");
         eventNameShortTextView = (TextView) findViewById(R.id.eventNameShortTextView);
         eventNameLongTextView = (TextView) findViewById(R.id.eventNameLongTextView);
         countryOfOriginTextView = (TextView) findViewById(R.id.countryOfOriginTextView);
@@ -54,7 +54,7 @@ public class EventHomeActivity extends AppCompatActivity {
 
         eventNameShortTextView.setText(clickedListViewItem);
 
-        DatabaseReference mDatabaseEventName = FirebaseDatabase.getInstance().getReference().child("Event").child(clickedListViewItem).child("Event Name");
+        DatabaseReference mDatabaseEventName = FirebaseDatabase.getInstance().getReference().child("Events").child(clickedListViewItem).child("Event Name");
         mDatabaseEventName.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -69,7 +69,7 @@ public class EventHomeActivity extends AppCompatActivity {
             }
         });
 
-        DatabaseReference mDatabaseCountryOfOrigin = FirebaseDatabase.getInstance().getReference().child("Event").child(clickedListViewItem).child("Country Of Origin");
+        DatabaseReference mDatabaseCountryOfOrigin = FirebaseDatabase.getInstance().getReference().child("Events").child(clickedListViewItem).child("Country Of Origin");
         mDatabaseCountryOfOrigin.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -83,7 +83,7 @@ public class EventHomeActivity extends AppCompatActivity {
             }
         });
 
-        DatabaseReference mDatabaseOriginalLanguage = FirebaseDatabase.getInstance().getReference().child("Event").child(clickedListViewItem).child("Original Language");
+        DatabaseReference mDatabaseOriginalLanguage = FirebaseDatabase.getInstance().getReference().child("Events").child(clickedListViewItem).child("Original Language");
         mDatabaseOriginalLanguage.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -97,7 +97,7 @@ public class EventHomeActivity extends AppCompatActivity {
             }
         });
 
-        DatabaseReference mDatabaseGenre = FirebaseDatabase.getInstance().getReference().child("Event").child(clickedListViewItem).child("Genre");
+        DatabaseReference mDatabaseGenre = FirebaseDatabase.getInstance().getReference().child("Events").child(clickedListViewItem).child("Genre");
         mDatabaseGenre.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -123,6 +123,7 @@ public class EventHomeActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(EventHomeActivity.this, CreateCompetitorActivity.class);
                 intent.putExtra("eventName", clickedListViewItem);
+                intent.putExtra("eventFullName", eventForSubscribe);
                 startActivity(intent);
             }
         });
@@ -136,7 +137,7 @@ public class EventHomeActivity extends AppCompatActivity {
             }
         });
 
-        DatabaseReference imagePath = FirebaseDatabase.getInstance().getReference().child("Event").child(clickedListViewItem).child("imageUrl");
+        DatabaseReference imagePath = FirebaseDatabase.getInstance().getReference().child("Events").child(clickedListViewItem).child("Image Url");
         imagePath.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {

@@ -31,7 +31,7 @@ public class SearchEventActivity extends AppCompatActivity {
         setContentView(R.layout.search_event);
 
         searchEventButton = (Button) findViewById(R.id.searchEventButton);
-        mDatabase = FirebaseDatabase.getInstance().getReference().child("Event");
+        mDatabase = FirebaseDatabase.getInstance().getReference().child("Events");
         eventNameEditText = (EditText) findViewById(R.id.eventNameField);
 
         eventNameShortTextView = (TextView) findViewById(R.id.eventNameShortTextView);
@@ -47,7 +47,7 @@ public class SearchEventActivity extends AppCompatActivity {
                 mDatabaseMod = mDatabase.child(eventName);
                 eventNameShortTextView.setText(eventName);
 
-                DatabaseReference mDatabaseEventName = FirebaseDatabase.getInstance().getReference().child("Event").child(eventName).child("Event Name");
+                DatabaseReference mDatabaseEventName = FirebaseDatabase.getInstance().getReference().child("Events").child(eventName).child("Event Name");
                 mDatabaseEventName.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
@@ -61,7 +61,7 @@ public class SearchEventActivity extends AppCompatActivity {
                     }
                 });
 
-                DatabaseReference mDatabaseCountry = FirebaseDatabase.getInstance().getReference().child("Event").child(eventName).child("Country Of Origin");
+                DatabaseReference mDatabaseCountry = FirebaseDatabase.getInstance().getReference().child("Events").child(eventName).child("Country Of Origin");
                 mDatabaseCountry.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
@@ -75,7 +75,7 @@ public class SearchEventActivity extends AppCompatActivity {
                     }
                 });
 
-                DatabaseReference mDatabaseLanguage = FirebaseDatabase.getInstance().getReference().child("Event").child(eventName).child("Original Language");
+                DatabaseReference mDatabaseLanguage = FirebaseDatabase.getInstance().getReference().child("Events").child(eventName).child("Original Language");
                 mDatabaseLanguage.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
@@ -89,7 +89,7 @@ public class SearchEventActivity extends AppCompatActivity {
                     }
                 });
 
-                DatabaseReference mDatabaseGenre = FirebaseDatabase.getInstance().getReference().child("Event").child(eventName).child("Genre");
+                DatabaseReference mDatabaseGenre = FirebaseDatabase.getInstance().getReference().child("Events").child(eventName).child("Genre");
                 mDatabaseGenre.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
