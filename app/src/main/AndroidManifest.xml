@@ -28,6 +28,7 @@
         <activity android:name=".EventCompetitorListActivity"></activity>
         <activity android:name=".EventCompetitorProfileActivity"></activity>
         <activity android:name=".EventCompetitorProfileRateActivity"></activity>
+        <activity android:name=".WebViewActivity"></activity>
     </application>
 
 </manifest>

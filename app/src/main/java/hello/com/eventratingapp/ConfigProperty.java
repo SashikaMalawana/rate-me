@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.CountDownTimer;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -126,6 +128,14 @@ public class ConfigProperty {
                 countDownTimerTextView.setText("Time is up");
             }
         }.start();
+
+    }
+
+    public static void loadWebView(WebView webView, String webUrl) {
+
+        webView.loadUrl(webUrl);
+        webView.getSettings().setJavaScriptEnabled(true);
+        webView.setWebViewClient(new WebViewClient());
 
     }
 
