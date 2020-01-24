@@ -20,8 +20,6 @@ import com.squareup.picasso.Picasso;
 
 public class EventCompetitorProfileActivity extends AppCompatActivity {
 
-    private DatabaseReference mDatabase;
-    private TextView eventCompetitorHeadName;
     private TextView eventCompetitorNameTextView;
     private TextView dateOfBirthTextView;
     private TextView hometownTextView;
@@ -44,7 +42,6 @@ public class EventCompetitorProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.event_competitor_profile);
 
-        eventCompetitorHeadName = (TextView) findViewById(R.id.competitorNameHeadTextView);
         eventCompetitorNameTextView = (TextView) findViewById(R.id.competitorNameTextView);
         dateOfBirthTextView = (TextView) findViewById(R.id.dateOfBirthTextView);
         hometownTextView = (TextView) findViewById(R.id.hometownTextView);
@@ -62,8 +59,6 @@ public class EventCompetitorProfileActivity extends AppCompatActivity {
         currentEventFromIntent = intent.getStringExtra("currentEvent");
         clickedListViewItem = intent.getStringExtra("clickedItem");
         currentFullEventFromIntent = intent.getStringExtra("currentEventFull");
-
-        eventCompetitorHeadName.setText(clickedListViewItem);
 
         DatabaseReference mDatabaseCompetitorName = FirebaseDatabase.getInstance().getReference().child("Events").child(currentEventFromIntent).child("Event Competitors").child(clickedListViewItem).child("Competitor Name");
         mDatabaseCompetitorName.addValueEventListener(new ValueEventListener() {

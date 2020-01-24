@@ -23,8 +23,6 @@ import com.squareup.picasso.Picasso;
 
 public class EventCompetitorProfileRateActivity extends AppCompatActivity {
 
-    private DatabaseReference mDatabse;
-    private TextView eventCompetitorNameHeadRateTextView;
     private TextView eventCompetitorNameRateTextView;
 
     private RatingBar averageInnerRatingBar;
@@ -46,7 +44,6 @@ public class EventCompetitorProfileRateActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.event_competitor_profile_rate);
 
-        eventCompetitorNameHeadRateTextView = (TextView) findViewById(R.id.competitorNameHeadRateTextView);
         eventCompetitorNameRateTextView = (TextView) findViewById(R.id.competitorNameRateTextView);
 
         averageInnerRatingBar = (RatingBar) findViewById(R.id.averageInnerRatingBar);
@@ -64,8 +61,6 @@ public class EventCompetitorProfileRateActivity extends AppCompatActivity {
         Intent intent = getIntent();
         currentEventFromIntent = intent.getStringExtra("currentEvent");
         currentCompetitorFromIntent = intent.getStringExtra("currentCompetitor");
-
-        eventCompetitorNameHeadRateTextView.setText(currentCompetitorFromIntent);
 
         DatabaseReference mDatabaseCompetitorName = FirebaseDatabase.getInstance().getReference().child("Events").child(currentEventFromIntent).child("Event Competitors").child(currentCompetitorFromIntent).child("Competitor Name");
         mDatabaseCompetitorName.addValueEventListener(new ValueEventListener() {
