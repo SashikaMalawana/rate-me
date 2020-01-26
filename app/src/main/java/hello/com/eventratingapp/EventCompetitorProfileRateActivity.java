@@ -39,6 +39,10 @@ public class EventCompetitorProfileRateActivity extends AppCompatActivity {
     String currentEventFromIntent;
     String currentCompetitorFromIntent;
 
+    String totalRatingPointsForCalc = null;
+    String noOfRatingsForCalc = null;
+    String weightedAverageRatingForCalc = null;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -110,7 +114,8 @@ public class EventCompetitorProfileRateActivity extends AppCompatActivity {
             @Override
             public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
                 ratingScaleInnerTextView.setText(String.valueOf(rating));
-                switch ((int) ratingBar.getRating()) {
+                float rate = ratingBar.getRating()*2;
+                switch ((int) rate) {
                     case 1:
                         ratingScaleInnerTextView.setText("Worst! Never see this again!");
                         break;
@@ -150,9 +155,70 @@ public class EventCompetitorProfileRateActivity extends AppCompatActivity {
         submitRatingReviewButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                float userRatingFloat = userInnerRatingBar.getRating();
+                float userRatingFloat = (userInnerRatingBar.getRating())*2;
                 String userRatingString = String.valueOf(userRatingFloat);
                 Toast.makeText(EventCompetitorProfileRateActivity.this, "Your rating value is " +userRatingString, Toast.LENGTH_SHORT).show();
+
+                DatabaseReference mDatabaseTotalRatingPoints = FirebaseDatabase.getInstance().getReference().child("Events").child(currentEventFromIntent).child("Event Competitors").child(currentCompetitorFromIntent).child("Ratings").child("Total Rating Points");
+                mDatabaseTotalRatingPoints.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        totalRatingPointsForCalc = dataSnapshot.getValue().toString();
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+                DatabaseReference mDatabaseNoOfRating = FirebaseDatabase.getInstance().getReference().child("Events").child(currentEventFromIntent).child("Event Competitors").child(currentCompetitorFromIntent).child("Ratings").child("No Of Ratings");
+                mDatabaseNoOfRating.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        noOfRatingsForCalc = dataSnapshot.getValue().toString();
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+                DatabaseReference mDatabaseWeightedAverageRating = FirebaseDatabase.getInstance().getReference().child("Events").child(currentEventFromIntent).child("Event Competitors").child(currentCompetitorFromIntent).child("Ratings").child("Weighted Average Rating");
+                mDatabaseWeightedAverageRating.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        weightedAverageRatingForCalc = dataSnapshot.getValue().toString();
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+                try {
+                    float totalRatingPointsForCalcFloat = Float.valueOf(totalRatingPointsForCalc);
+                    float noOfRatingsForCalcFloat = Float.valueOf(noOfRatingsForCalc);
+                    float weightedAverageRatingForCalcFloat = Float.valueOf(weightedAverageRatingForCalc);
+
+                    totalRatingPointsForCalcFloat = totalRatingPointsForCalcFloat + userRatingFloat;
+                    noOfRatingsForCalcFloat = noOfRatingsForCalcFloat + 1;
+                    weightedAverageRatingForCalcFloat = totalRatingPointsForCalcFloat / noOfRatingsForCalcFloat;
+
+                    int totalRatingPointsForCalcInt = Integer.valueOf((int) totalRatingPointsForCalcFloat);
+                    int noOfRatingsForCalcInt = Integer.valueOf((int) noOfRatingsForCalcFloat);
+
+                    String totalRatingPointsForCalcString = String.valueOf(totalRatingPointsForCalcInt);
+                    String noOfRatingsForCalcString = String.valueOf(noOfRatingsForCalcInt);
+
+                    String weightedAverageRatingForCalcRound = String.format("%.2f", weightedAverageRatingForCalcFloat);
+
+                    mDatabaseTotalRatingPoints.setValue(totalRatingPointsForCalcString);
+                    mDatabaseNoOfRating.setValue(noOfRatingsForCalcString);
+                    mDatabaseWeightedAverageRating.setValue(weightedAverageRatingForCalcRound);
+                }
+                catch (Exception exception) {
+                    System.out.println(exception.toString());
+                }
 
                 String review = reviewEditText.getText().toString().trim();
                 DatabaseReference mDatabaseReview = FirebaseDatabase.getInstance().getReference().child("Events").child(currentEventFromIntent).child("Event Competitors").child(currentCompetitorFromIntent).child("Ratings");
