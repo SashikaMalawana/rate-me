@@ -24,6 +24,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:text="rate point"
+            android:textColor="@android:color/black"
             android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -69,7 +70,7 @@
         <EditText
             android:id="@+id/reviewEditText"
             android:layout_width="match_parent"
-            android:layout_height="84dp"
+            android:layout_height="68dp"
             android:layout_marginBottom="8dp"
             android:layout_marginTop="8dp"
             android:ems="10"
@@ -81,7 +82,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.722" />
+            app:layout_constraintVertical_bias="0.697" />
 
         <RatingBar
             android:id="@+id/userInnerRatingBar"
@@ -93,9 +94,10 @@
             android:stepSize="0.5"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.241"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.401" />
+            app:layout_constraintVertical_bias="0.403" />
 
         <ImageView
             android:id="@+id/eventCompetitorProfileRateImageView"
@@ -126,14 +128,17 @@
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.387"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/competitorNameRateTextView"
-            android:layout_width="match_parent"
+            android:layout_width="321dp"
             android:layout_height="wrap_content"
             android:text="Competitor Name"
+            android:textColor="@android:color/black"
+            android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -141,16 +146,51 @@
             app:layout_constraintVertical_bias="0.250" />
 
         <Button
-            android:id="@+id/submitRatingReviewButton"
+            android:id="@+id/submitReviewButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="Submit Rating"
+            android:text="Submit Review"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.934" />
+            app:layout_constraintVertical_bias="0.937" />
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/submitRatingFloatingActionButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:clickable="true"
+            android:src="@drawable/ic_star_border_black_24dp"
+            app:backgroundTint="@android:color/holo_green_light"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.410" />
+
+        <TextView
+            android:id="@+id/reviewTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:text="TextView"
+            android:textColor="@android:color/black"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.048"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.809" />
     </android.support.constraint.ConstraintLayout>
 
 </android.support.constraint.ConstraintLayout>

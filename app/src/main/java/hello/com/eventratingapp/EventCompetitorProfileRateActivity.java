@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
@@ -32,9 +33,13 @@ public class EventCompetitorProfileRateActivity extends AppCompatActivity {
     private RatingBar userInnerRatingBar;
     private TextView ratingScaleInnerTextView;
     private EditText reviewEditText;
-    private Button submitRatingReviewButton;
+    private Button submitReviewButton;
 
     private ImageView eventCompetitorProfileRateImageView;
+
+    private FloatingActionButton submitRatingFloatingActionButton;
+
+    private TextView reviewTextView;
 
     String currentEventFromIntent;
     String currentCompetitorFromIntent;
@@ -58,9 +63,13 @@ public class EventCompetitorProfileRateActivity extends AppCompatActivity {
         ratingScaleInnerTextView = (TextView) findViewById(R.id.ratingScaleInnerTextView);
 
         reviewEditText = (EditText) findViewById(R.id.reviewEditText);
-        submitRatingReviewButton = (Button) findViewById(R.id.submitRatingReviewButton);
+        submitReviewButton = (Button) findViewById(R.id.submitReviewButton);
 
         eventCompetitorProfileRateImageView = (ImageView) findViewById(R.id.eventCompetitorProfileRateImageView);
+
+        submitRatingFloatingActionButton = (FloatingActionButton) findViewById(R.id.submitRatingFloatingActionButton);
+
+        reviewTextView = (TextView) findViewById(R.id.reviewTextView);
 
         Intent intent = getIntent();
         currentEventFromIntent = intent.getStringExtra("currentEvent");
@@ -152,9 +161,10 @@ public class EventCompetitorProfileRateActivity extends AppCompatActivity {
             }
         });
 
-        submitRatingReviewButton.setOnClickListener(new View.OnClickListener() {
+        submitRatingFloatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 float userRatingFloat = (userInnerRatingBar.getRating())*2;
                 String userRatingString = String.valueOf(userRatingFloat);
                 Toast.makeText(EventCompetitorProfileRateActivity.this, "Your rating value is " +userRatingString, Toast.LENGTH_SHORT).show();
@@ -219,6 +229,14 @@ public class EventCompetitorProfileRateActivity extends AppCompatActivity {
                 catch (Exception exception) {
                     System.out.println(exception.toString());
                 }
+                userInnerRatingBar.setRating(0);
+
+            }
+        });
+
+        submitReviewButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
                 String review = reviewEditText.getText().toString().trim();
                 DatabaseReference mDatabaseReview = FirebaseDatabase.getInstance().getReference().child("Events").child(currentEventFromIntent).child("Event Competitors").child(currentCompetitorFromIntent).child("Ratings");
@@ -234,8 +252,22 @@ public class EventCompetitorProfileRateActivity extends AppCompatActivity {
                     }
                 });
 
-                userInnerRatingBar.setRating(0);
                 reviewEditText.setText("");
+
+            }
+        });
+
+        DatabaseReference mDatabaseGetReview = FirebaseDatabase.getInstance().getReference().child("Events").child(currentEventFromIntent).child("Event Competitors").child(currentCompetitorFromIntent).child("Ratings").child("Reviews");
+        mDatabaseGetReview.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                String getReview = dataSnapshot.getValue().toString().trim();
+                reviewTextView.setText(getReview);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
             }
         });
 
