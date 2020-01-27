@@ -51,10 +51,10 @@ public class EventCompetitorListActivity extends AppCompatActivity {
 
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-                String competitorName = dataSnapshot.getKey();
-                int index = eventCompetitorKeyArrayList.indexOf(competitorName);
-                eventCompetitorArrayList.set(index,competitorName);
-                arrayAdapter.notifyDataSetChanged();
+//                String competitorName = dataSnapshot.getKey();
+//                int index = eventCompetitorKeyArrayList.indexOf(competitorName);
+//                eventCompetitorArrayList.set(index,competitorName);
+//                arrayAdapter.notifyDataSetChanged();
             }
 
             @Override
