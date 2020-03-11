@@ -30,6 +30,8 @@ public class EventHomeActivity extends AppCompatActivity {
     private Button competitorListButton;
     private Button createCompetitorButton;
 
+    private Button roundButton;
+
     private ImageView eventHomeImageView;
 
     @Override
@@ -46,6 +48,8 @@ public class EventHomeActivity extends AppCompatActivity {
         subscribeEventButton = (Button) findViewById(R.id.subscribeEventButton);
         competitorListButton = (Button) findViewById(R.id.competitorListButton);
         createCompetitorButton = (Button) findViewById(R.id.createCompetitorBtn);
+
+        roundButton = (Button) findViewById(R.id.roundBtn);
 
         eventHomeImageView = (ImageView) findViewById(R.id.eventHomeImageView);
 
@@ -132,6 +136,15 @@ public class EventHomeActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(EventHomeActivity.this, EventCompetitorListActivity.class);
+                intent.putExtra("eventName", clickedListViewItem);
+                startActivity(intent);
+            }
+        });
+
+        roundButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(EventHomeActivity.this, CreateEventRoundActivity.class);
                 intent.putExtra("eventName", clickedListViewItem);
                 startActivity(intent);
             }

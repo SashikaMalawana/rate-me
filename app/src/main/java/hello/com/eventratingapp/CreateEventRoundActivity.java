@@ -53,7 +53,7 @@ public class CreateEventRoundActivity extends AppCompatActivity {
 
                 if (!roundName.isEmpty() && !noOfCompetitors.isEmpty() && !roundGuest.isEmpty() && !activeTimePeriod.isEmpty()) {
 
-                    mDatabaseRound = mDatabase.child(eventNameFromIntent).child("Rounds");
+                    mDatabaseRound = mDatabase.child(eventNameFromIntent).child("Rounds").child(roundName);
 
                     try {
 

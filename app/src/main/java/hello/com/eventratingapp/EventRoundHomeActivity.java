@@ -43,7 +43,7 @@ public class EventRoundHomeActivity extends AppCompatActivity {
         jRoundCompetitorsListView = (ListView) findViewById(R.id.xRoundCompetitorsListView);
 
         Intent intent = getIntent();
-        String eventNameFromIntent = intent.getStringExtra("eventNameFromIntent");
+        String eventNameFromIntent = intent.getStringExtra("eventName");
         String roundNameFromIntent = intent.getStringExtra("roundName");
 
         arrayAdapter = new ArrayAdapter<String>(EventRoundHomeActivity.this, android.R.layout.simple_list_item_1, roundArrayList);

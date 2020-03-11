@@ -29,6 +29,8 @@
         <activity android:name=".EventCompetitorProfileActivity"></activity>
         <activity android:name=".EventCompetitorProfileRateActivity"></activity>
         <activity android:name=".WebViewActivity"></activity>
+        <activity android:name=".CreateEventRoundActivity"></activity>
+        <activity android:name=".EventRoundHomeActivity"></activity>
     </application>
 
 </manifest>
