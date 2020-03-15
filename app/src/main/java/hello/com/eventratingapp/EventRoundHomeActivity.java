@@ -7,13 +7,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
-
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
 import java.util.ArrayList;
 
 public class EventRoundHomeActivity extends AppCompatActivity {
@@ -24,10 +23,11 @@ public class EventRoundHomeActivity extends AppCompatActivity {
     private TextView jRoundGuestTextView;
     private TextView jActiveTimePeriodTextView;
 
-    private ArrayAdapter<String> arrayAdapter;
-    private ArrayList<String> roundArrayList = new ArrayList<String>();
-
     private ListView jRoundCompetitorsListView;
+    private ArrayList<String> roundCompetitorsArrayList = new ArrayList<String>();
+    private ArrayAdapter<String> arrayAdapter;
+
+    private DatabaseReference mDatabase;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -46,7 +46,9 @@ public class EventRoundHomeActivity extends AppCompatActivity {
         String eventNameFromIntent = intent.getStringExtra("eventName");
         String roundNameFromIntent = intent.getStringExtra("roundName");
 
-        arrayAdapter = new ArrayAdapter<String>(EventRoundHomeActivity.this, android.R.layout.simple_list_item_1, roundArrayList);
+        mDatabase = FirebaseDatabase.getInstance().getReference().child("Events").child(eventNameFromIntent).child("Competitors");
+
+        arrayAdapter = new ArrayAdapter<String>(EventRoundHomeActivity.this, android.R.layout.simple_list_item_1, roundCompetitorsArrayList);
         jRoundCompetitorsListView.setAdapter(arrayAdapter);
 
         DatabaseReference mDatabaseRoundName = FirebaseDatabase.getInstance().getReference().child("Events").child(eventNameFromIntent).child("Rounds").child(roundNameFromIntent).child("Round Name");
@@ -98,6 +100,35 @@ public class EventRoundHomeActivity extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 String activeTimePeriod = dataSnapshot.getValue().toString();
                 jActiveTimePeriodTextView.setText(activeTimePeriod);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+        mDatabase.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                String competitor = dataSnapshot.getKey().toString();
+                roundCompetitorsArrayList.add(competitor);
+                arrayAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
             }
 
             @Override
