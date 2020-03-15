@@ -78,7 +78,7 @@ public class CreateEventRoundActivity extends AppCompatActivity {
                                 }
                             }
                         });
-                        mDatabaseRound.child("Round Guest").setValue(noOfCompetitors).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        mDatabaseRound.child("Round Guest").setValue(roundGuest).addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
                                 if (task.isSuccessful()) {
