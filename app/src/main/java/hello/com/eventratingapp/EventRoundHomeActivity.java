@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -43,10 +45,10 @@ public class EventRoundHomeActivity extends AppCompatActivity {
         jRoundCompetitorsListView = (ListView) findViewById(R.id.xRoundCompetitorsListView);
 
         Intent intent = getIntent();
-        String eventNameFromIntent = intent.getStringExtra("eventName");
+        final String eventNameFromIntent = intent.getStringExtra("eventName");
         String roundNameFromIntent = intent.getStringExtra("roundName");
 
-        mDatabase = FirebaseDatabase.getInstance().getReference().child("Events").child(eventNameFromIntent).child("Competitors");
+        mDatabase = FirebaseDatabase.getInstance().getReference().child("Events").child(eventNameFromIntent).child("Event Competitors");
 
         arrayAdapter = new ArrayAdapter<String>(EventRoundHomeActivity.this, android.R.layout.simple_list_item_1, roundCompetitorsArrayList);
         jRoundCompetitorsListView.setAdapter(arrayAdapter);
@@ -134,6 +136,16 @@ public class EventRoundHomeActivity extends AppCompatActivity {
             @Override
             public void onCancelled(DatabaseError databaseError) {
 
+            }
+        });
+
+        jRoundCompetitorsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(EventRoundHomeActivity.this, EventCompetitorProfileActivity.class);
+                intent.putExtra("currentEvent", eventNameFromIntent);
+                intent.putExtra("clickedItem", roundCompetitorsArrayList.get(position));
+                startActivity(intent);
             }
         });
 
