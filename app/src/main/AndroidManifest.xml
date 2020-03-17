@@ -31,6 +31,7 @@
         <activity android:name=".WebViewActivity"></activity>
         <activity android:name=".CreateEventRoundActivity"></activity>
         <activity android:name=".EventRoundHomeActivity"></activity>
+        <activity android:name=".EventRoundDashboardActivity"></activity>
     </application>
 
 </manifest>

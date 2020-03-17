@@ -34,6 +34,8 @@ public class EventHomeActivity extends AppCompatActivity {
 
     private ImageView eventHomeImageView;
 
+    String linkToIntent;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -144,8 +146,9 @@ public class EventHomeActivity extends AppCompatActivity {
         roundButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(EventHomeActivity.this, CreateEventRoundActivity.class);
+                Intent intent = new Intent(EventHomeActivity.this, EventRoundDashboardActivity.class);
                 intent.putExtra("eventName", clickedListViewItem);
+                intent.putExtra("link", linkToIntent);
                 startActivity(intent);
             }
         });
@@ -155,6 +158,7 @@ public class EventHomeActivity extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 String link = dataSnapshot.getValue().toString();
+                linkToIntent = dataSnapshot.getValue().toString();
                 Picasso.get().load(link).into(eventHomeImageView);
             }
             @Override
