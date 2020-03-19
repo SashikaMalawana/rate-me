@@ -32,6 +32,7 @@
         <activity android:name=".CreateEventRoundActivity"></activity>
         <activity android:name=".EventRoundHomeActivity"></activity>
         <activity android:name=".EventRoundDashboardActivity"></activity>
+        <activity android:name=".AddRoundCompetitorActivity"></activity>
     </application>
 
 </manifest>
