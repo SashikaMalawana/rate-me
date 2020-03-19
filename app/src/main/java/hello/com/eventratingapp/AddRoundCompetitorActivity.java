@@ -29,11 +29,11 @@ public class AddRoundCompetitorActivity extends AppCompatActivity{
         Intent intent = getIntent();
         roundCompetitorArrayListFromIntent = intent.getStringArrayListExtra("roundCompetitorArrayList");
 
-        ListView listView = (ListView) findViewById(R.id.xcheckable_list_view);
+        ListView listView = (ListView) findViewById(R.id.xCheckableListView);
         listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
 
         String[] items = {"India", "Sri Lanka", "Pakistan", "Bangladesh"};
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.row_layout, R.id.txt_lan, roundCompetitorArrayListFromIntent);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.row_layout, R.id.xCheckableTextView, roundCompetitorArrayListFromIntent);
         listView.setAdapter(adapter);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
