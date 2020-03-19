@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import com.google.firebase.database.ChildEventListener;
@@ -31,6 +32,8 @@ public class EventRoundHomeActivity extends AppCompatActivity {
 
     private DatabaseReference mDatabase;
 
+    private Button jAddCompetitorButton;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,6 +55,8 @@ public class EventRoundHomeActivity extends AppCompatActivity {
 
         arrayAdapter = new ArrayAdapter<String>(EventRoundHomeActivity.this, android.R.layout.simple_list_item_1, roundCompetitorsArrayList);
         jRoundCompetitorsListView.setAdapter(arrayAdapter);
+
+        jAddCompetitorButton = (Button) findViewById(R.id.xAddCompetitorButton);
 
         DatabaseReference mDatabaseRoundName = FirebaseDatabase.getInstance().getReference().child("Events").child(eventNameFromIntent).child("Rounds").child(roundNameFromIntent).child("Round Name");
         mDatabaseRoundName.addValueEventListener(new ValueEventListener() {
@@ -145,6 +150,15 @@ public class EventRoundHomeActivity extends AppCompatActivity {
                 Intent intent = new Intent(EventRoundHomeActivity.this, EventCompetitorProfileActivity.class);
                 intent.putExtra("currentEvent", eventNameFromIntent);
                 intent.putExtra("clickedItem", roundCompetitorsArrayList.get(position));
+                startActivity(intent);
+            }
+        });
+
+        jAddCompetitorButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(EventRoundHomeActivity.this, AddRoundCompetitorActivity.class);
+                intent.putExtra("roundCompetitorArrayList", roundCompetitorsArrayList);
                 startActivity(intent);
             }
         });
