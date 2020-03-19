@@ -49,7 +49,7 @@ public class EventRoundHomeActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         final String eventNameFromIntent = intent.getStringExtra("eventName");
-        String roundNameFromIntent = intent.getStringExtra("roundName");
+        final String roundNameFromIntent = intent.getStringExtra("roundName");
 
         mDatabase = FirebaseDatabase.getInstance().getReference().child("Events").child(eventNameFromIntent).child("Event Competitors");
 
@@ -159,6 +159,8 @@ public class EventRoundHomeActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(EventRoundHomeActivity.this, AddRoundCompetitorActivity.class);
                 intent.putExtra("roundCompetitorArrayList", roundCompetitorsArrayList);
+                intent.putExtra("eventName", eventNameFromIntent);
+                intent.putExtra("roundName", roundNameFromIntent);
                 startActivity(intent);
             }
         });

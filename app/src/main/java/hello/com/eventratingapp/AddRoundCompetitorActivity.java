@@ -17,7 +17,11 @@ public class AddRoundCompetitorActivity extends AppCompatActivity{
 
     private ArrayList<String> selectedItems = new ArrayList<>();
     private Button jAddCompetitorButton;
+    private TextView jAddRoundCompetitorHeadTextView;
+    private TextView jAddRoundCompetitorTextView;
     private ArrayList<String> roundCompetitorArrayListFromIntent = new ArrayList<String>();
+    private String eventNameFromIntent;
+    private String roundNameFromIntent;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -25,9 +29,16 @@ public class AddRoundCompetitorActivity extends AppCompatActivity{
         setContentView(R.layout.add_round_competitor);
 
         jAddCompetitorButton = (Button) findViewById(R.id.xAddCompetitorButton);
+        jAddRoundCompetitorHeadTextView = (TextView) findViewById(R.id.xAddRoundCompetitorHeadTextView);
+        jAddRoundCompetitorTextView = (TextView) findViewById(R.id.xAddRoundCompetitorTextView);
 
         Intent intent = getIntent();
         roundCompetitorArrayListFromIntent = intent.getStringArrayListExtra("roundCompetitorArrayList");
+        eventNameFromIntent = intent.getStringExtra("eventName");
+        roundNameFromIntent = intent.getStringExtra("roundName");
+
+        jAddRoundCompetitorHeadTextView.setText(roundNameFromIntent);
+        jAddRoundCompetitorTextView.setText("Add competitors from " +eventNameFromIntent +" event to " +roundNameFromIntent +" round");
 
         ListView listView = (ListView) findViewById(R.id.xCheckableListView);
         listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
