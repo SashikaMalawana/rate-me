@@ -28,9 +28,11 @@ public class EventRoundHomeActivity extends AppCompatActivity {
 
     private ListView jRoundCompetitorsListView;
     private ArrayList<String> roundCompetitorsArrayList = new ArrayList<String>();
+    private ArrayList<String> roundCompetitorsArrayList2 = new ArrayList<String>();
     private ArrayAdapter<String> arrayAdapter;
 
     private DatabaseReference mDatabase;
+    private DatabaseReference mDatabase2;
 
     private Button jAddCompetitorButton;
 
@@ -52,8 +54,9 @@ public class EventRoundHomeActivity extends AppCompatActivity {
         final String roundNameFromIntent = intent.getStringExtra("roundName");
 
         mDatabase = FirebaseDatabase.getInstance().getReference().child("Events").child(eventNameFromIntent).child("Event Competitors");
+        mDatabase2 = FirebaseDatabase.getInstance().getReference().child("Events").child(eventNameFromIntent).child("Rounds").child(roundNameFromIntent).child("Round Competitors");
 
-        arrayAdapter = new ArrayAdapter<String>(EventRoundHomeActivity.this, android.R.layout.simple_list_item_1, roundCompetitorsArrayList);
+        arrayAdapter = new ArrayAdapter<String>(EventRoundHomeActivity.this, android.R.layout.simple_list_item_1, roundCompetitorsArrayList2);
         jRoundCompetitorsListView.setAdapter(arrayAdapter);
 
         jAddCompetitorButton = (Button) findViewById(R.id.xAddCompetitorButton);
@@ -120,6 +123,34 @@ public class EventRoundHomeActivity extends AppCompatActivity {
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 String competitor = dataSnapshot.getKey().toString();
                 roundCompetitorsArrayList.add(competitor);
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+        mDatabase2.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                String str = dataSnapshot.getValue().toString();
+                roundCompetitorsArrayList2.add(str);
                 arrayAdapter.notifyDataSetChanged();
             }
 
@@ -159,6 +190,7 @@ public class EventRoundHomeActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(EventRoundHomeActivity.this, AddRoundCompetitorActivity.class);
                 intent.putExtra("roundCompetitorArrayList", roundCompetitorsArrayList);
+                intent.putExtra("roundCompetitorArrayList2", roundCompetitorsArrayList2);
                 intent.putExtra("eventName", eventNameFromIntent);
                 intent.putExtra("roundName", roundNameFromIntent);
                 startActivity(intent);

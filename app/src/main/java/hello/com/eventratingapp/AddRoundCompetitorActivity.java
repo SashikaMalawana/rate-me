@@ -11,6 +11,10 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.util.ArrayList;
 
 public class AddRoundCompetitorActivity extends AppCompatActivity{
@@ -20,8 +24,10 @@ public class AddRoundCompetitorActivity extends AppCompatActivity{
     private TextView jAddRoundCompetitorHeadTextView;
     private TextView jAddRoundCompetitorTextView;
     private ArrayList<String> roundCompetitorArrayListFromIntent = new ArrayList<String>();
+    private ArrayList<String> roundCompetitorArrayList2FromIntent = new ArrayList<String>();
     private String eventNameFromIntent;
     private String roundNameFromIntent;
+    private DatabaseReference mDatabase;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -34,11 +40,14 @@ public class AddRoundCompetitorActivity extends AppCompatActivity{
 
         Intent intent = getIntent();
         roundCompetitorArrayListFromIntent = intent.getStringArrayListExtra("roundCompetitorArrayList");
+        roundCompetitorArrayList2FromIntent = intent.getStringArrayListExtra("roundCompetitorArrayList2");
         eventNameFromIntent = intent.getStringExtra("eventName");
         roundNameFromIntent = intent.getStringExtra("roundName");
 
         jAddRoundCompetitorHeadTextView.setText(roundNameFromIntent);
         jAddRoundCompetitorTextView.setText("Add competitors from " +eventNameFromIntent +" event to " +roundNameFromIntent +" round");
+
+        mDatabase = FirebaseDatabase.getInstance().getReference().child("Events").child(eventNameFromIntent).child("Rounds").child(roundNameFromIntent).child("Round Competitors");
 
         ListView listView = (ListView) findViewById(R.id.xCheckableListView);
         listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
@@ -72,8 +81,28 @@ public class AddRoundCompetitorActivity extends AppCompatActivity{
                 }
                 Toast.makeText(AddRoundCompetitorActivity.this, "You clicked " +items, Toast.LENGTH_SHORT).show();
 
+                ArrayList<String> combineArrayList = new ArrayList<String>();
+                combineArrayList = CombineTwoArrayLists(roundCompetitorArrayList2FromIntent, selectedItems);
+                mDatabase.setValue(combineArrayList);
+
             }
         });
+
+    }
+
+    public ArrayList<String> CombineTwoArrayLists(ArrayList<String> x, ArrayList<String> y) {
+
+        ArrayList<String> combinedArrayList = new ArrayList<String>();
+        combinedArrayList.addAll(x);
+        for (String item : y) {
+            if (x.contains(item)) {
+                continue;
+            }
+            else {
+                combinedArrayList.add(item);
+            }
+        }
+        return combinedArrayList;
 
     }
 
