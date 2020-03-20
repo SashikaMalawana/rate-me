@@ -23,7 +23,7 @@ public class AddRoundCompetitorActivity extends AppCompatActivity{
     private Button jAddCompetitorButton;
     private TextView jAddRoundCompetitorHeadTextView;
     private TextView jAddRoundCompetitorTextView;
-    private ArrayList<String> roundCompetitorArrayListFromIntent = new ArrayList<String>();
+    private ArrayList<String> eventCompetitorArrayListFromIntent = new ArrayList<String>();
     private ArrayList<String> roundCompetitorArrayList2FromIntent = new ArrayList<String>();
     private String eventNameFromIntent;
     private String roundNameFromIntent;
@@ -39,8 +39,8 @@ public class AddRoundCompetitorActivity extends AppCompatActivity{
         jAddRoundCompetitorTextView = (TextView) findViewById(R.id.xAddRoundCompetitorTextView);
 
         Intent intent = getIntent();
-        roundCompetitorArrayListFromIntent = intent.getStringArrayListExtra("roundCompetitorArrayList");
-        roundCompetitorArrayList2FromIntent = intent.getStringArrayListExtra("roundCompetitorArrayList2");
+        eventCompetitorArrayListFromIntent = intent.getStringArrayListExtra("eventCompetitorArrayList");
+        roundCompetitorArrayList2FromIntent = intent.getStringArrayListExtra("roundCompetitorArrayList");
         eventNameFromIntent = intent.getStringExtra("eventName");
         roundNameFromIntent = intent.getStringExtra("roundName");
 
@@ -53,7 +53,7 @@ public class AddRoundCompetitorActivity extends AppCompatActivity{
         listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
 
         String[] items = {"India", "Sri Lanka", "Pakistan", "Bangladesh"};
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.row_layout, R.id.xCheckableTextView, roundCompetitorArrayListFromIntent);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.row_layout, R.id.xCheckableTextView, eventCompetitorArrayListFromIntent);
         listView.setAdapter(adapter);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -76,14 +76,14 @@ public class AddRoundCompetitorActivity extends AppCompatActivity{
             public void onClick(View v) {
 
                 String items = "";
-                for (String item:selectedItems) {
+                for (String item : selectedItems) {
                     items += item + " and ";
                 }
-                Toast.makeText(AddRoundCompetitorActivity.this, "You clicked " +items, Toast.LENGTH_SHORT).show();
+                Toast.makeText(AddRoundCompetitorActivity.this, "You added " +items +"to the round", Toast.LENGTH_SHORT).show();
 
-                ArrayList<String> combineArrayList = new ArrayList<String>();
-                combineArrayList = CombineTwoArrayLists(roundCompetitorArrayList2FromIntent, selectedItems);
-                mDatabase.setValue(combineArrayList);
+                ArrayList<String> combinedArrayList = new ArrayList<String>();
+                combinedArrayList = CombineTwoArrayLists(roundCompetitorArrayList2FromIntent, selectedItems);
+                mDatabase.setValue(combinedArrayList);
 
             }
         });
