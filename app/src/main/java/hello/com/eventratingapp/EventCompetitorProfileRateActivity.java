@@ -284,5 +284,12 @@ public class EventCompetitorProfileRateActivity extends AppCompatActivity {
             }
         });
 
+        reviewTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                reviewEditText.setText(reviewTextView.getText().toString());
+            }
+        });
+
     }
 }
