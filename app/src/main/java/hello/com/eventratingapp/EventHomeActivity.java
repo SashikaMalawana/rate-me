@@ -9,13 +9,14 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.storage.FirebaseStorage;
 import com.squareup.picasso.Picasso;
+import java.util.ArrayList;
 
 public class EventHomeActivity extends AppCompatActivity {
 
@@ -35,6 +36,8 @@ public class EventHomeActivity extends AppCompatActivity {
     private ImageView eventHomeImageView;
 
     String linkToIntent;
+
+    private ArrayList<String> eventCompetitorArrayList = new ArrayList<String>();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -117,6 +120,36 @@ public class EventHomeActivity extends AppCompatActivity {
             }
         });
 
+        mDatabase = FirebaseDatabase.getInstance().getReference().child("Events").child(clickedListViewItem).child("Event Competitors");
+        mDatabase.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                String competitorName = dataSnapshot.getKey();
+                eventCompetitorArrayList.add(competitorName);
+                //arrayAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
         subscribeEventButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -139,6 +172,7 @@ public class EventHomeActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(EventHomeActivity.this, EventCompetitorListActivity.class);
                 intent.putExtra("eventName", clickedListViewItem);
+                intent.putStringArrayListExtra("competitorList", eventCompetitorArrayList);
                 startActivity(intent);
             }
         });

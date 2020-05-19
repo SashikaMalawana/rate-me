@@ -146,7 +146,7 @@ public class CreateCompetitorActivity extends AppCompatActivity {
                             mRatingReference.child("No Of Ratings").setValue(0);
                             mRatingReference.child("Total Rating Points").setValue(0);
                             mRatingReference.child("Weighted Average Rating").setValue(0);
-                            mRatingReference.child("Reviews").setValue(null);
+                            mRatingReference.child("Reviews").setValue(0);
 
                         }
                         catch (Exception exception) {
