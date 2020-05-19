@@ -9,8 +9,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -30,6 +28,8 @@ public class EventCompetitorProfileActivity extends AppCompatActivity {
     private TextView weightedAverageRatingTextView;
     private TextView noOfRatingsTextView;
     private Button rateCompetitorButton;
+
+    private Button jBarChartButton;
 
     private ImageView eventCompetitorProfileImageView;
 
@@ -52,6 +52,8 @@ public class EventCompetitorProfileActivity extends AppCompatActivity {
         weightedAverageRatingTextView = (TextView) findViewById(R.id.weightedAverageRatingTextView);
         noOfRatingsTextView = (TextView) findViewById(R.id.noOfRatingsTextView);
         rateCompetitorButton = (Button) findViewById(R.id.rateCompetitorButton);
+
+        jBarChartButton = (Button) findViewById(R.id.xBarChartButton);
 
         eventCompetitorProfileImageView = (ImageView) findViewById(R.id.eventCompetitorProfileImageView);
 
@@ -166,6 +168,22 @@ public class EventCompetitorProfileActivity extends AppCompatActivity {
                 Intent intent = new Intent(EventCompetitorProfileActivity.this, EventCompetitorProfileRateActivity.class);
                 intent.putExtra("currentEvent", currentEventFromIntent);
                 intent.putExtra("currentCompetitor", clickedListViewItem);
+                startActivity(intent);
+            }
+        });
+
+        jBarChartButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(EventCompetitorProfileActivity.this, BarChartAcivity.class);
+                startActivity(intent);
+            }
+        });
+
+        averageRatingBar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(EventCompetitorProfileActivity.this, BarChartAcivity.class);
                 startActivity(intent);
             }
         });

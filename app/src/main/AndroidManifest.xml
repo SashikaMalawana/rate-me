@@ -2,8 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="hello.com.eventratingapp">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -19,20 +19,21 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".EventDashboardActivity"></activity>
-        <activity android:name=".CreateEventActivity"></activity>
-        <activity android:name=".CreateCompetitorActivity"></activity>
-        <activity android:name=".SearchEventActivity"></activity>
-        <activity android:name=".EventListActivity"></activity>
-        <activity android:name=".EventHomeActivity"></activity>
-        <activity android:name=".EventCompetitorListActivity"></activity>
-        <activity android:name=".EventCompetitorProfileActivity"></activity>
-        <activity android:name=".EventCompetitorProfileRateActivity"></activity>
-        <activity android:name=".WebViewActivity"></activity>
-        <activity android:name=".CreateEventRoundActivity"></activity>
-        <activity android:name=".EventRoundHomeActivity"></activity>
-        <activity android:name=".EventRoundDashboardActivity"></activity>
-        <activity android:name=".AddRoundCompetitorActivity"></activity>
+        <activity android:name=".EventDashboardActivity" />
+        <activity android:name=".CreateEventActivity" />
+        <activity android:name=".CreateCompetitorActivity" />
+        <activity android:name=".SearchEventActivity" />
+        <activity android:name=".EventListActivity" />
+        <activity android:name=".EventHomeActivity" />
+        <activity android:name=".EventCompetitorListActivity" />
+        <activity android:name=".EventCompetitorProfileActivity" />
+        <activity android:name=".EventCompetitorProfileRateActivity" />
+        <activity android:name=".WebViewActivity" />
+        <activity android:name=".CreateEventRoundActivity" />
+        <activity android:name=".EventRoundHomeActivity" />
+        <activity android:name=".EventRoundDashboardActivity" />
+        <activity android:name=".AddRoundCompetitorActivity" />
+        <activity android:name=".BarChartAcivity"></activity>
     </application>
 
 </manifest>
