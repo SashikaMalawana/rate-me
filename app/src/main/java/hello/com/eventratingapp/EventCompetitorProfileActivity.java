@@ -180,7 +180,7 @@ public class EventCompetitorProfileActivity extends AppCompatActivity {
         jBarChartButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(EventCompetitorProfileActivity.this, BarChartAcivity.class);
+                Intent intent = new Intent(EventCompetitorProfileActivity.this, BarChartActivity.class);
                 startActivity(intent);
             }
         });
@@ -204,7 +204,7 @@ public class EventCompetitorProfileActivity extends AppCompatActivity {
         averageRatingBar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(EventCompetitorProfileActivity.this, BarChartAcivity.class);
+                Intent intent = new Intent(EventCompetitorProfileActivity.this, BarChartActivity.class);
                 startActivity(intent);
             }
         });
