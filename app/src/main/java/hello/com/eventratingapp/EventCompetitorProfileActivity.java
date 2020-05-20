@@ -30,6 +30,7 @@ public class EventCompetitorProfileActivity extends AppCompatActivity {
     private Button rateCompetitorButton;
 
     private Button jBarChartButton;
+    private Button jPieChartButton;
 
     private ImageView eventCompetitorProfileImageView;
 
@@ -54,6 +55,7 @@ public class EventCompetitorProfileActivity extends AppCompatActivity {
         rateCompetitorButton = (Button) findViewById(R.id.rateCompetitorButton);
 
         jBarChartButton = (Button) findViewById(R.id.xBarChartButton);
+        jPieChartButton = (Button) findViewById(R.id.xPieChartButton);
 
         eventCompetitorProfileImageView = (ImageView) findViewById(R.id.eventCompetitorProfileImageView);
 
@@ -162,6 +164,7 @@ public class EventCompetitorProfileActivity extends AppCompatActivity {
             }
         });
 
+        //Button click event
         rateCompetitorButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -176,6 +179,14 @@ public class EventCompetitorProfileActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(EventCompetitorProfileActivity.this, BarChartAcivity.class);
+                startActivity(intent);
+            }
+        });
+
+        jPieChartButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(EventCompetitorProfileActivity.this, PieChartActivity.class);
                 startActivity(intent);
             }
         });

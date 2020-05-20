@@ -33,7 +33,9 @@
         <activity android:name=".EventRoundHomeActivity" />
         <activity android:name=".EventRoundDashboardActivity" />
         <activity android:name=".AddRoundCompetitorActivity" />
-        <activity android:name=".BarChartAcivity"></activity>
+        <activity android:name=".BarChartAcivity" />
+        <activity android:name=".PieChartActivity" />
+        <activity android:name=".RadarChartActivity"></activity>
     </application>
 
 </manifest>
