@@ -36,13 +36,14 @@ public class PieChartActivity extends AppCompatActivity {
         PieDataSet pieDataSet = new PieDataSet(ratings, "Ratings");
         pieDataSet.setColors(ColorTemplate.COLORFUL_COLORS);
         pieDataSet.setValueTextColor(Color.BLACK);
-        pieDataSet.setValueTextSize(16f);
+        pieDataSet.setValueTextSize(12f);
 
         PieData pieData = new PieData(pieDataSet);
 
         pieChart.setData(pieData);
+        pieChart.setHoleRadius(40f);
         pieChart.getDescription().setEnabled(false);
-        pieChart.setCenterText("Ratings");
+        pieChart.setCenterText("Ratings Pie Chart");
         pieChart.animate();
 
 

@@ -36,13 +36,16 @@ public class BarChartActivity extends AppCompatActivity {
         BarDataSet barDataSet = new BarDataSet(ratings, "Ratings");
         barDataSet.setColors(ColorTemplate.MATERIAL_COLORS);
         barDataSet.setValueTextColor(Color.BLACK);
-        barDataSet.setValueTextSize(16f);
+        barDataSet.setValueTextSize(12f);
 
         BarData barData = new BarData(barDataSet);
 
         barChart.setFitBars(true);
         barChart.setData(barData);
-        barChart.getDescription().setText("Bar Chart Example");
+        barChart.getDescription().setText("Rating Bar Chart");
+        barChart.getDescription().setTextColor(Color.BLACK);
+        barChart.getDescription().setTextSize(12f);
+        barChart.setDrawBarShadow(false);
         barChart.animateY(2000);
 
     }
