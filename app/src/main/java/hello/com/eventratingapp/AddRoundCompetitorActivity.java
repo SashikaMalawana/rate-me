@@ -22,6 +22,7 @@ public class AddRoundCompetitorActivity extends AppCompatActivity{
 
     private ArrayList<String> selectedItems = new ArrayList<>();
     private Button jAddCompetitorsButton;
+    private Button jRemoveCompetitorsButton;
     private TextView jAddRoundCompetitorHeadTextView;
     private TextView jAddRoundCompetitorTextView;
     private ArrayList<String> eventCompetitorArrayListFromIntent = new ArrayList<String>();
@@ -37,6 +38,7 @@ public class AddRoundCompetitorActivity extends AppCompatActivity{
         setContentView(R.layout.add_round_competitor);
 
         jAddCompetitorsButton = (Button) findViewById(R.id.xAddCompetitorsButton);
+        jRemoveCompetitorsButton = (Button) findViewById(R.id.xRemoveCompetitorsButton);
         jAddRoundCompetitorHeadTextView = (TextView) findViewById(R.id.xAddRoundCompetitorHeadTextView);
         jAddRoundCompetitorTextView = (TextView) findViewById(R.id.xAddRoundCompetitorTextView);
 
@@ -93,6 +95,25 @@ public class AddRoundCompetitorActivity extends AppCompatActivity{
             }
         });
 
+        jRemoveCompetitorsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                String items = "";
+                for (String item : selectedItems) {
+                    items += item + " and ";
+                }
+                Toast.makeText(AddRoundCompetitorActivity.this, "You removed " +items +" from the round", Toast.LENGTH_SHORT).show();
+
+                ArrayList<String> combinedArrayList = new ArrayList<String>();
+                combinedArrayList = SeparateTwoArrayLists(roundCompetitorArrayList2FromIntent, selectedItems);
+                //mDatabase.setValue(combinedArrayList);
+
+                RemoveRoundData(selectedItems, mDatabase, mDatabase2);
+
+            }
+        });
+
     }
 
     public ArrayList<String> CombineTwoArrayLists(ArrayList<String> x, ArrayList<String> y) {
@@ -136,6 +157,45 @@ public class AddRoundCompetitorActivity extends AppCompatActivity{
                     mDatabase.child(arrayItem).child("Ratings").child("Reviews").setValue(0);
                     mDatabase.child(arrayItem).child("Ratings").child("Total Rating Points").setValue(0);
                     mDatabase.child(arrayItem).child("Ratings").child("Weighted Average Rating").setValue(0);
+
+                }
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+    }
+
+    public ArrayList<String> SeparateTwoArrayLists(ArrayList<String> x, ArrayList<String> y) {
+
+        ArrayList<String> separateArrayList = new ArrayList<String>();
+        separateArrayList.addAll(x);
+        for (String item : y) {
+            if (x.contains(item)) {
+                separateArrayList.remove(item);
+            }
+            else {
+                continue;
+            }
+        }
+        return separateArrayList;
+
+    }
+
+    public static void RemoveRoundData(final ArrayList<String> selectedArrayList, final DatabaseReference mDatabase, DatabaseReference mDatabase2) {
+
+        mDatabase2.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                for (String arrayItem : selectedArrayList) {
+
+                    DatabaseReference removeReference = mDatabase.child(arrayItem);
+                    removeReference.removeValue();
 
                 }
 
