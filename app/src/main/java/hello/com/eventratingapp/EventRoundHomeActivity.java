@@ -149,7 +149,7 @@ public class EventRoundHomeActivity extends AppCompatActivity {
         mDatabase2.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                String str = dataSnapshot.getValue().toString();
+                String str = dataSnapshot.getKey().toString();
                 roundCompetitorsArrayList.add(str);
                 arrayAdapter.notifyDataSetChanged();
             }

@@ -11,16 +11,17 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-
+import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 
 public class AddRoundCompetitorActivity extends AppCompatActivity{
 
     private ArrayList<String> selectedItems = new ArrayList<>();
-    private Button jAddCompetitorButton;
+    private Button jAddCompetitorsButton;
     private TextView jAddRoundCompetitorHeadTextView;
     private TextView jAddRoundCompetitorTextView;
     private ArrayList<String> eventCompetitorArrayListFromIntent = new ArrayList<String>();
@@ -28,13 +29,14 @@ public class AddRoundCompetitorActivity extends AppCompatActivity{
     private String eventNameFromIntent;
     private String roundNameFromIntent;
     private DatabaseReference mDatabase;
+    private DatabaseReference mDatabase2;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_round_competitor);
 
-        jAddCompetitorButton = (Button) findViewById(R.id.xAddCompetitorButton);
+        jAddCompetitorsButton = (Button) findViewById(R.id.xAddCompetitorsButton);
         jAddRoundCompetitorHeadTextView = (TextView) findViewById(R.id.xAddRoundCompetitorHeadTextView);
         jAddRoundCompetitorTextView = (TextView) findViewById(R.id.xAddRoundCompetitorTextView);
 
@@ -48,6 +50,7 @@ public class AddRoundCompetitorActivity extends AppCompatActivity{
         jAddRoundCompetitorTextView.setText("Add competitors from " +eventNameFromIntent +" event to " +roundNameFromIntent +" round");
 
         mDatabase = FirebaseDatabase.getInstance().getReference().child("Events").child(eventNameFromIntent).child("Rounds").child(roundNameFromIntent).child("Round Competitors");
+        mDatabase2 = FirebaseDatabase.getInstance().getReference().child("Events").child(eventNameFromIntent).child("Event Competitors");
 
         ListView listView = (ListView) findViewById(R.id.xCheckableListView);
         listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
@@ -71,7 +74,7 @@ public class AddRoundCompetitorActivity extends AppCompatActivity{
             }
         });
 
-        jAddCompetitorButton.setOnClickListener(new View.OnClickListener() {
+        jAddCompetitorsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -79,11 +82,13 @@ public class AddRoundCompetitorActivity extends AppCompatActivity{
                 for (String item : selectedItems) {
                     items += item + " and ";
                 }
-                Toast.makeText(AddRoundCompetitorActivity.this, "You added " +items +"to the round", Toast.LENGTH_SHORT).show();
+                Toast.makeText(AddRoundCompetitorActivity.this, "You added " +items +" to the round", Toast.LENGTH_SHORT).show();
 
                 ArrayList<String> combinedArrayList = new ArrayList<String>();
                 combinedArrayList = CombineTwoArrayLists(roundCompetitorArrayList2FromIntent, selectedItems);
-                mDatabase.setValue(combinedArrayList);
+                //mDatabase.setValue(combinedArrayList);
+
+                SetRoundData(combinedArrayList, mDatabase, mDatabase2);
 
             }
         });
@@ -103,6 +108,44 @@ public class AddRoundCompetitorActivity extends AppCompatActivity{
             }
         }
         return combinedArrayList;
+
+    }
+
+    public static void SetRoundData(final ArrayList<String> combinedArrayList, final DatabaseReference mDatabase, DatabaseReference mDatabase2) {
+
+        mDatabase2.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                for (String arrayItem : combinedArrayList) {
+
+                    String s1 = dataSnapshot.child(arrayItem).child("Competitor Name").getValue().toString();
+                    String s2 = dataSnapshot.child(arrayItem).child("Date Of Birth").getValue().toString();
+                    String s3 = dataSnapshot.child(arrayItem).child("Description").getValue().toString();
+                    String s4 = dataSnapshot.child(arrayItem).child("Hometown").getValue().toString();
+                    String s5 = dataSnapshot.child(arrayItem).child("Image Url").getValue().toString();
+                    String s6 = dataSnapshot.child(arrayItem).child("Performance Type").getValue().toString();
+
+                    mDatabase.child(arrayItem).child("Competitor Name").setValue(s1);
+                    mDatabase.child(arrayItem).child("Date Of Birth").setValue(s2);
+                    mDatabase.child(arrayItem).child("Description").setValue(s3);
+                    mDatabase.child(arrayItem).child("Hometown").setValue(s4);
+                    mDatabase.child(arrayItem).child("Image Url").setValue(s5);
+                    mDatabase.child(arrayItem).child("Performance Type").setValue(s6);
+                    mDatabase.child(arrayItem).child("Ratings").child("No Of Ratings").setValue(0);
+                    mDatabase.child(arrayItem).child("Ratings").child("Reviews").setValue(0);
+                    mDatabase.child(arrayItem).child("Ratings").child("Total Rating Points").setValue(0);
+                    mDatabase.child(arrayItem).child("Ratings").child("Weighted Average Rating").setValue(0);
+
+                }
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
 
     }
 
