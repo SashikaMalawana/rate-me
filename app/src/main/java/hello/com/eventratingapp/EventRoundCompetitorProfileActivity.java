@@ -178,8 +178,9 @@ public class EventRoundCompetitorProfileActivity extends AppCompatActivity {
         jRateCompetitorButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(EventRoundCompetitorProfileActivity.this, EventCompetitorProfileRateActivity.class);
+                Intent intent = new Intent(EventRoundCompetitorProfileActivity.this, EventRoundCompetitorProfileRateActivity.class);
                 intent.putExtra("currentEvent", currentEventFromIntent);
+                intent.putExtra("currentRound", currentRoundFromIntent);
                 intent.putExtra("currentCompetitor", clickedListViewItem);
                 startActivity(intent);
             }
