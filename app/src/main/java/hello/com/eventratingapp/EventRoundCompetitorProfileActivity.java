@@ -29,7 +29,7 @@ public class EventRoundCompetitorProfileActivity extends AppCompatActivity {
     private RatingBar jAverageRatingBar;
     private TextView jWeightedAverageRatingTextView;
     private TextView jNoOfRatingsTextView;
-    private Button rateCompetitorButton;
+    private Button jRateCompetitorButton;
 
     private Button jBarChartButton;
     private Button jPieChartButton;
@@ -58,7 +58,7 @@ public class EventRoundCompetitorProfileActivity extends AppCompatActivity {
         jAverageRatingBar = (RatingBar) findViewById(R.id.xAverageRatingBar);
         jWeightedAverageRatingTextView = (TextView) findViewById(R.id.xWeightedAverageRatingTextView);
         jNoOfRatingsTextView = (TextView) findViewById(R.id.xNoOfRatingsTextView);
-        rateCompetitorButton = (Button) findViewById(R.id.xRateCompetitorButton);
+        jRateCompetitorButton = (Button) findViewById(R.id.xRateCompetitorButton);
 
         jBarChartButton = (Button) findViewById(R.id.xBarChartButton);
         jPieChartButton = (Button) findViewById(R.id.xPieChartButton);
@@ -175,7 +175,7 @@ public class EventRoundCompetitorProfileActivity extends AppCompatActivity {
         });
 
         //Button click event
-        rateCompetitorButton.setOnClickListener(new View.OnClickListener() {
+        jRateCompetitorButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(EventRoundCompetitorProfileActivity.this, EventCompetitorProfileRateActivity.class);
