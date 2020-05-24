@@ -178,8 +178,9 @@ public class EventRoundHomeActivity extends AppCompatActivity {
         jRoundCompetitorsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(EventRoundHomeActivity.this, EventCompetitorProfileActivity.class);
+                Intent intent = new Intent(EventRoundHomeActivity.this, EventRoundCompetitorProfileActivity.class);
                 intent.putExtra("currentEvent", eventNameFromIntent);
+                intent.putExtra("currentRound", roundNameFromIntent);
                 intent.putExtra("clickedItem", roundCompetitorsArrayList.get(position));
                 startActivity(intent);
             }
