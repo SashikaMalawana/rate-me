@@ -44,6 +44,7 @@ public class EventRoundCompetitorProfileRateActivity extends AppCompatActivity {
     String currentEventFromIntent;
     String currentRoundFromIntent;
     String currentCompetitorFromIntent;
+    String currentUserFromIntent = "Jason";
 
     String totalRatingPointsForCalc = null;
     String noOfRatingsForCalc = null;
@@ -232,6 +233,10 @@ public class EventRoundCompetitorProfileRateActivity extends AppCompatActivity {
                     System.out.println(exception.toString());
                 }
                 jUserInnerRatingBar.setRating(0);
+
+                //Save rating value under logged user
+                DatabaseReference userReference = FirebaseDatabase.getInstance().getReference().child("Users").child(currentUserFromIntent).child("Rating History").child(currentEventFromIntent).child(currentCompetitorFromIntent).child(currentRoundFromIntent);
+                userReference.setValue(userRatingFloat);
 
             }
         });
