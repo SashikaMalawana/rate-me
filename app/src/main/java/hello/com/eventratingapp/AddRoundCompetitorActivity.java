@@ -158,6 +158,17 @@ public class AddRoundCompetitorActivity extends AppCompatActivity{
                     mDatabase.child(arrayItem).child("Ratings").child("Total Rating Points").setValue(0);
                     mDatabase.child(arrayItem).child("Ratings").child("Weighted Average Rating").setValue(0);
 
+                    mDatabase.child(arrayItem).child("Analytical Ratings").child("1").setValue(0);
+                    mDatabase.child(arrayItem).child("Analytical Ratings").child("2").setValue(0);
+                    mDatabase.child(arrayItem).child("Analytical Ratings").child("3").setValue(0);
+                    mDatabase.child(arrayItem).child("Analytical Ratings").child("4").setValue(0);
+                    mDatabase.child(arrayItem).child("Analytical Ratings").child("5").setValue(0);
+                    mDatabase.child(arrayItem).child("Analytical Ratings").child("6").setValue(0);
+                    mDatabase.child(arrayItem).child("Analytical Ratings").child("7").setValue(0);
+                    mDatabase.child(arrayItem).child("Analytical Ratings").child("8").setValue(0);
+                    mDatabase.child(arrayItem).child("Analytical Ratings").child("9").setValue(0);
+                    mDatabase.child(arrayItem).child("Analytical Ratings").child("10").setValue(0);
+
                 }
 
             }
