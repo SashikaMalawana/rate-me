@@ -50,6 +50,10 @@ public class EventRoundCompetitorProfileRateActivity extends AppCompatActivity {
     String noOfRatingsForCalc = null;
     String weightedAverageRatingForCalc = null;
 
+    String analyticalRatingValue = null;
+    float userRatingFloat;
+    String userRatingString;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -168,8 +172,8 @@ public class EventRoundCompetitorProfileRateActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                float userRatingFloat = (jUserInnerRatingBar.getRating())*2;
-                String userRatingString = String.valueOf(userRatingFloat);
+                userRatingFloat = (jUserInnerRatingBar.getRating())*2;
+                userRatingString = String.valueOf(userRatingFloat);
                 Toast.makeText(EventRoundCompetitorProfileRateActivity.this, "Your rating value is " +userRatingString, Toast.LENGTH_SHORT).show();
 
                 DatabaseReference mDatabaseTotalRatingPoints = FirebaseDatabase.getInstance().getReference().child("Events").child(currentEventFromIntent).child("Rounds").child(currentRoundFromIntent).child("Round Competitors").child(currentCompetitorFromIntent).child("Ratings").child("Total Rating Points");
@@ -208,6 +212,56 @@ public class EventRoundCompetitorProfileRateActivity extends AppCompatActivity {
 
                     }
                 });
+
+                //Get analytical rating value from round competitor
+                String checkValue = "";
+                switch ((int) userRatingFloat) {
+                    case 1 :
+                        checkValue = "1";
+                        break;
+                    case 2 :
+                        checkValue = "2";
+                        break;
+                    case 3 :
+                        checkValue = "3";
+                        break;
+                    case 4 :
+                        checkValue = "4";
+                        break;
+                    case 5 :
+                        checkValue = "5";
+                        break;
+                    case 6 :
+                        checkValue = "6";
+                        break;
+                    case 7 :
+                        checkValue = "7";
+                        break;
+                    case 8 :
+                        checkValue = "8";
+                        break;
+                    case 9 :
+                        checkValue = "9";
+                        break;
+                    case 10 :
+                        checkValue = "10";
+                        break;
+                    default :
+                        break;
+                }
+                DatabaseReference analyticalRatingReference = FirebaseDatabase.getInstance().getReference().child("Events").child(currentEventFromIntent).child("Rounds").child(currentRoundFromIntent).child("Round Competitors").child(currentCompetitorFromIntent).child("Analytical Ratings").child(checkValue);
+                analyticalRatingReference.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        analyticalRatingValue = dataSnapshot.getValue().toString();
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+
                 try {
                     float totalRatingPointsForCalcFloat = Float.valueOf(totalRatingPointsForCalc);
                     float noOfRatingsForCalcFloat = Float.valueOf(noOfRatingsForCalc);
@@ -233,6 +287,16 @@ public class EventRoundCompetitorProfileRateActivity extends AppCompatActivity {
                     System.out.println(exception.toString());
                 }
                 jUserInnerRatingBar.setRating(0);
+
+                //Save analytical rating value under round competitor
+                try {
+                    int x = Integer.valueOf(analyticalRatingValue) + 1;
+
+                    analyticalRatingReference.setValue(String.valueOf(x));
+                }
+                catch (Exception exception){
+                    System.out.println(exception.toString());
+                }
 
                 //Save rating value under logged user
                 DatabaseReference userReference = FirebaseDatabase.getInstance().getReference().child("Users").child(currentUserFromIntent).child("Rating History").child(currentEventFromIntent).child(currentCompetitorFromIntent).child(currentRoundFromIntent);
