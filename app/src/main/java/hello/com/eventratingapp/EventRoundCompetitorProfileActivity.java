@@ -222,9 +222,6 @@ public class EventRoundCompetitorProfileActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(EventRoundCompetitorProfileActivity.this, BarChartActivity.class);
-                intent.putExtra("currentEvent", currentEventFromIntent);
-                intent.putExtra("currentRound", currentRoundFromIntent);
-                intent.putExtra("currentCompetitor", clickedListViewItem);
                 intent.putStringArrayListExtra("roundCompetitorsAnalyticalRatingArrayList", roundCompetitorsAnalyticalRatingArrayListFromIntent);
                 startActivity(intent);
             }

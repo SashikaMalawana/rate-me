@@ -17,9 +17,6 @@ public class BarChartActivity extends AppCompatActivity {
     private static final String TAG = "";
     float analyticalRatingCount = 0;
 
-    String currentEventFromIntent;
-    String currentRoundFromIntent;
-    String currentCompetitorFromIntent;
     ArrayList<String> roundCompetitorsAnalyticalRatingArrayList = new ArrayList<String>();
 
     @Override
@@ -30,9 +27,6 @@ public class BarChartActivity extends AppCompatActivity {
         BarChart barChart = findViewById(R.id.barChart);
 
         Intent intent = getIntent();
-        currentEventFromIntent = intent.getStringExtra("currentEvent");
-        currentRoundFromIntent = intent.getStringExtra("currentRound");
-        currentCompetitorFromIntent = intent.getStringExtra("currentCompetitor");
         roundCompetitorsAnalyticalRatingArrayList = intent.getStringArrayListExtra("roundCompetitorsAnalyticalRatingArrayList");
 
         ArrayList<BarEntry> ratings = new ArrayList<>();
