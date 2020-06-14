@@ -240,6 +240,7 @@ public class EventRoundCompetitorProfileActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(EventRoundCompetitorProfileActivity.this, RadarChartActivity.class);
+                intent.putStringArrayListExtra("roundCompetitorsAnalyticalRatingArrayList", roundCompetitorsAnalyticalRatingArrayListFromIntent);
                 startActivity(intent);
             }
         });
