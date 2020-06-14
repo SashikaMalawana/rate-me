@@ -8,13 +8,14 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
-
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
+import java.util.ArrayList;
 
 public class EventRoundCompetitorProfileActivity extends AppCompatActivity {
 
@@ -41,6 +42,8 @@ public class EventRoundCompetitorProfileActivity extends AppCompatActivity {
     String currentRoundFromIntent;
     String clickedListViewItem;
     String currentFullEventFromIntent;
+
+    private ArrayList<String> roundCompetitorsAnalyticalRatingArrayListFromIntent = new ArrayList<String>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -186,10 +189,43 @@ public class EventRoundCompetitorProfileActivity extends AppCompatActivity {
             }
         });
 
+        DatabaseReference analyticalRatingReference = FirebaseDatabase.getInstance().getReference().child("Events").child(currentEventFromIntent).child("Rounds").child(currentRoundFromIntent).child("Round Competitors").child(clickedListViewItem).child("Analytical Ratings");
+        analyticalRatingReference.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                String str = dataSnapshot.getValue().toString();
+                roundCompetitorsAnalyticalRatingArrayListFromIntent.add(str);
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
         jBarChartButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(EventRoundCompetitorProfileActivity.this, BarChartActivity.class);
+                intent.putExtra("currentEvent", currentEventFromIntent);
+                intent.putExtra("currentRound", currentRoundFromIntent);
+                intent.putExtra("currentCompetitor", clickedListViewItem);
+                intent.putStringArrayListExtra("roundCompetitorsAnalyticalRatingArrayList", roundCompetitorsAnalyticalRatingArrayListFromIntent);
                 startActivity(intent);
             }
         });

@@ -1,18 +1,26 @@
 package hello.com.eventratingapp;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-
+import android.util.Log;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.utils.ColorTemplate;
-
 import java.util.ArrayList;
 
 public class BarChartActivity extends AppCompatActivity {
+
+    private static final String TAG = "";
+    float analyticalRatingCount = 0;
+
+    String currentEventFromIntent;
+    String currentRoundFromIntent;
+    String currentCompetitorFromIntent;
+    ArrayList<String> roundCompetitorsAnalyticalRatingArrayList = new ArrayList<String>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,17 +29,31 @@ public class BarChartActivity extends AppCompatActivity {
 
         BarChart barChart = findViewById(R.id.barChart);
 
+        Intent intent = getIntent();
+        currentEventFromIntent = intent.getStringExtra("currentEvent");
+        currentRoundFromIntent = intent.getStringExtra("currentRound");
+        currentCompetitorFromIntent = intent.getStringExtra("currentCompetitor");
+        roundCompetitorsAnalyticalRatingArrayList = intent.getStringArrayListExtra("roundCompetitorsAnalyticalRatingArrayList");
+
         ArrayList<BarEntry> ratings = new ArrayList<>();
-        ratings.add(new BarEntry(1, 53));
-        ratings.add(new BarEntry(2, 21));
-        ratings.add(new BarEntry(3, 34));
-        ratings.add(new BarEntry(4, 53));
-        ratings.add(new BarEntry(5, 67));
-        ratings.add(new BarEntry(6, 43));
-        ratings.add(new BarEntry(7, 34));
-        ratings.add(new BarEntry(8, 26));
-        ratings.add(new BarEntry(9, 17));
-        ratings.add(new BarEntry(10, 37));
+
+        if (roundCompetitorsAnalyticalRatingArrayList.isEmpty()) {
+            Log.d(TAG, "--------------------------------------------------------------------------------------");
+        }
+        else{
+            Log.d(TAG, "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+        }
+
+        if (!roundCompetitorsAnalyticalRatingArrayList.isEmpty()) {
+
+            for (int i=0; i<10; i++) {
+
+                analyticalRatingCount = Float.valueOf(roundCompetitorsAnalyticalRatingArrayList.get(i));
+                ratings.add(new BarEntry(i, analyticalRatingCount));
+
+            }
+
+        }
 
         BarDataSet barDataSet = new BarDataSet(ratings, "Ratings");
         barDataSet.setColors(ColorTemplate.MATERIAL_COLORS);
