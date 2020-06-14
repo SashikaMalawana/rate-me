@@ -231,6 +231,7 @@ public class EventRoundCompetitorProfileActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(EventRoundCompetitorProfileActivity.this, PieChartActivity.class);
+                intent.putStringArrayListExtra("roundCompetitorsAnalyticalRatingArrayList", roundCompetitorsAnalyticalRatingArrayListFromIntent);
                 startActivity(intent);
             }
         });
