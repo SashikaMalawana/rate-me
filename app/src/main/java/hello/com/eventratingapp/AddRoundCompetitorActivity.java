@@ -105,11 +105,11 @@ public class AddRoundCompetitorActivity extends AppCompatActivity{
                 }
                 Toast.makeText(AddRoundCompetitorActivity.this, "You removed " +items +" from the round", Toast.LENGTH_SHORT).show();
 
-                ArrayList<String> combinedArrayList = new ArrayList<String>();
-                combinedArrayList = SeparateTwoArrayLists(roundCompetitorArrayList2FromIntent, selectedItems);
+                ArrayList<String> separateArrayList = new ArrayList<String>();
+                separateArrayList = SeparateTwoArrayLists(roundCompetitorArrayList2FromIntent, selectedItems);
                 //mDatabase.setValue(combinedArrayList);
 
-                RemoveRoundData(selectedItems, mDatabase, mDatabase2);
+                RemoveRoundData(separateArrayList, mDatabase, mDatabase2);
 
             }
         });
@@ -119,7 +119,7 @@ public class AddRoundCompetitorActivity extends AppCompatActivity{
     public ArrayList<String> CombineTwoArrayLists(ArrayList<String> x, ArrayList<String> y) {
 
         ArrayList<String> combinedArrayList = new ArrayList<String>();
-        combinedArrayList.addAll(x);
+        //combinedArrayList.addAll(x);
         for (String item : y) {
             if (x.contains(item)) {
                 continue;
@@ -184,10 +184,10 @@ public class AddRoundCompetitorActivity extends AppCompatActivity{
     public ArrayList<String> SeparateTwoArrayLists(ArrayList<String> x, ArrayList<String> y) {
 
         ArrayList<String> separateArrayList = new ArrayList<String>();
-        separateArrayList.addAll(x);
+        //separateArrayList.addAll(x);
         for (String item : y) {
             if (x.contains(item)) {
-                separateArrayList.remove(item);
+                separateArrayList.add(item);
             }
             else {
                 continue;
