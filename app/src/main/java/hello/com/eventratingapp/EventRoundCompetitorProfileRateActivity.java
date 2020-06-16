@@ -15,12 +15,15 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
+
+import java.util.ArrayList;
 
 public class EventRoundCompetitorProfileRateActivity extends AppCompatActivity {
 
@@ -53,6 +56,8 @@ public class EventRoundCompetitorProfileRateActivity extends AppCompatActivity {
     String analyticalRatingValue = null;
     float userRatingFloat;
     String userRatingString;
+
+    private ArrayList<String> eventCompetitorAnalyticalRatingsArrayList = new ArrayList<String>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -168,6 +173,74 @@ public class EventRoundCompetitorProfileRateActivity extends AppCompatActivity {
             }
         });
 
+        //Get rating value from round competitor
+        final DatabaseReference mDatabaseTotalRatingPoints = FirebaseDatabase.getInstance().getReference().child("Events").child(currentEventFromIntent).child("Rounds").child(currentRoundFromIntent).child("Round Competitors").child(currentCompetitorFromIntent).child("Ratings").child("Total Rating Points");
+        mDatabaseTotalRatingPoints.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                totalRatingPointsForCalc = dataSnapshot.getValue().toString();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+        final DatabaseReference mDatabaseNoOfRatings = FirebaseDatabase.getInstance().getReference().child("Events").child(currentEventFromIntent).child("Rounds").child(currentRoundFromIntent).child("Round Competitors").child(currentCompetitorFromIntent).child("Ratings").child("No Of Ratings");
+        mDatabaseNoOfRatings.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                noOfRatingsForCalc = dataSnapshot.getValue().toString();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+        final DatabaseReference mDatabaseWeightedAverageRating = FirebaseDatabase.getInstance().getReference().child("Events").child(currentEventFromIntent).child("Rounds").child(currentRoundFromIntent).child("Round Competitors").child(currentCompetitorFromIntent).child("Ratings").child("Weighted Average Rating");
+        mDatabaseWeightedAverageRating.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                weightedAverageRatingForCalc = dataSnapshot.getValue().toString();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+        //Get analytical rating value from round competitor
+        final DatabaseReference analyticalRatingReference = FirebaseDatabase.getInstance().getReference().child("Events").child(currentEventFromIntent).child("Rounds").child(currentRoundFromIntent).child("Round Competitors").child(currentCompetitorFromIntent).child("Analytical Ratings");
+        analyticalRatingReference.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                String RatingCount = dataSnapshot.getValue().toString();
+                eventCompetitorAnalyticalRatingsArrayList.add(RatingCount);
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
         jSubmitRatingFloatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -176,131 +249,37 @@ public class EventRoundCompetitorProfileRateActivity extends AppCompatActivity {
                 userRatingString = String.valueOf(userRatingFloat);
                 Toast.makeText(EventRoundCompetitorProfileRateActivity.this, "Your rating value is " +userRatingString, Toast.LENGTH_SHORT).show();
 
-                DatabaseReference mDatabaseTotalRatingPoints = FirebaseDatabase.getInstance().getReference().child("Events").child(currentEventFromIntent).child("Rounds").child(currentRoundFromIntent).child("Round Competitors").child(currentCompetitorFromIntent).child("Ratings").child("Total Rating Points");
-                mDatabaseTotalRatingPoints.addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        totalRatingPointsForCalc = dataSnapshot.getValue().toString();
-                    }
+                float totalRatingPointsForCalcFloat = Float.valueOf(totalRatingPointsForCalc);
+                float noOfRatingsForCalcFloat = Float.valueOf(noOfRatingsForCalc);
+                float weightedAverageRatingForCalcFloat = Float.valueOf(weightedAverageRatingForCalc);
 
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
+                totalRatingPointsForCalcFloat = totalRatingPointsForCalcFloat + userRatingFloat;
+                noOfRatingsForCalcFloat = noOfRatingsForCalcFloat + 1;
+                weightedAverageRatingForCalcFloat = totalRatingPointsForCalcFloat / noOfRatingsForCalcFloat;
 
-                    }
-                });
-                DatabaseReference mDatabaseNoOfRating = FirebaseDatabase.getInstance().getReference().child("Events").child(currentEventFromIntent).child("Rounds").child(currentRoundFromIntent).child("Round Competitors").child(currentCompetitorFromIntent).child("Ratings").child("No Of Ratings");
-                mDatabaseNoOfRating.addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        noOfRatingsForCalc = dataSnapshot.getValue().toString();
-                    }
+                int totalRatingPointsForCalcInt = Integer.valueOf((int) totalRatingPointsForCalcFloat);
+                int noOfRatingsForCalcInt = Integer.valueOf((int) noOfRatingsForCalcFloat);
 
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
+                String totalRatingPointsForCalcString = String.valueOf(totalRatingPointsForCalcInt);
+                String noOfRatingsForCalcString = String.valueOf(noOfRatingsForCalcInt);
 
-                    }
-                });
-                DatabaseReference mDatabaseWeightedAverageRating = FirebaseDatabase.getInstance().getReference().child("Events").child(currentEventFromIntent).child("Rounds").child(currentRoundFromIntent).child("Round Competitors").child(currentCompetitorFromIntent).child("Ratings").child("Weighted Average Rating");
-                mDatabaseWeightedAverageRating.addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        weightedAverageRatingForCalc = dataSnapshot.getValue().toString();
-                    }
+                String weightedAverageRatingForCalcRound = String.format("%.2f", weightedAverageRatingForCalcFloat);
 
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
+                mDatabaseTotalRatingPoints.setValue(totalRatingPointsForCalcString);
+                mDatabaseNoOfRatings.setValue(noOfRatingsForCalcString);
+                mDatabaseWeightedAverageRating.setValue(weightedAverageRatingForCalcRound);
 
-                    }
-                });
-
-                //Get analytical rating value from round competitor
-                String checkValue = "";
-                switch ((int) userRatingFloat) {
-                    case 1 :
-                        checkValue = "1";
-                        break;
-                    case 2 :
-                        checkValue = "2";
-                        break;
-                    case 3 :
-                        checkValue = "3";
-                        break;
-                    case 4 :
-                        checkValue = "4";
-                        break;
-                    case 5 :
-                        checkValue = "5";
-                        break;
-                    case 6 :
-                        checkValue = "6";
-                        break;
-                    case 7 :
-                        checkValue = "7";
-                        break;
-                    case 8 :
-                        checkValue = "8";
-                        break;
-                    case 9 :
-                        checkValue = "9";
-                        break;
-                    case 10 :
-                        checkValue = "10";
-                        break;
-                    default :
-                        break;
-                }
-                DatabaseReference analyticalRatingReference = FirebaseDatabase.getInstance().getReference().child("Events").child(currentEventFromIntent).child("Rounds").child(currentRoundFromIntent).child("Round Competitors").child(currentCompetitorFromIntent).child("Analytical Ratings").child(checkValue);
-                analyticalRatingReference.addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        analyticalRatingValue = dataSnapshot.getValue().toString();
-                    }
-
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-
-                    }
-                });
-
-                try {
-                    float totalRatingPointsForCalcFloat = Float.valueOf(totalRatingPointsForCalc);
-                    float noOfRatingsForCalcFloat = Float.valueOf(noOfRatingsForCalc);
-                    float weightedAverageRatingForCalcFloat = Float.valueOf(weightedAverageRatingForCalc);
-
-                    totalRatingPointsForCalcFloat = totalRatingPointsForCalcFloat + userRatingFloat;
-                    noOfRatingsForCalcFloat = noOfRatingsForCalcFloat + 1;
-                    weightedAverageRatingForCalcFloat = totalRatingPointsForCalcFloat / noOfRatingsForCalcFloat;
-
-                    int totalRatingPointsForCalcInt = Integer.valueOf((int) totalRatingPointsForCalcFloat);
-                    int noOfRatingsForCalcInt = Integer.valueOf((int) noOfRatingsForCalcFloat);
-
-                    String totalRatingPointsForCalcString = String.valueOf(totalRatingPointsForCalcInt);
-                    String noOfRatingsForCalcString = String.valueOf(noOfRatingsForCalcInt);
-
-                    String weightedAverageRatingForCalcRound = String.format("%.2f", weightedAverageRatingForCalcFloat);
-
-                    mDatabaseTotalRatingPoints.setValue(totalRatingPointsForCalcString);
-                    mDatabaseNoOfRating.setValue(noOfRatingsForCalcString);
-                    mDatabaseWeightedAverageRating.setValue(weightedAverageRatingForCalcRound);
-                }
-                catch (Exception exception) {
-                    System.out.println(exception.toString());
-                }
                 jUserInnerRatingBar.setRating(0);
 
                 //Save analytical rating value under round competitor
-                try {
-                    int x = Integer.valueOf(analyticalRatingValue) + 1;
-
-                    analyticalRatingReference.setValue(String.valueOf(x));
-                }
-                catch (Exception exception){
-                    System.out.println(exception.toString());
-                }
+                int x = Integer.valueOf(eventCompetitorAnalyticalRatingsArrayList.get((int) (userRatingFloat-1))) + 1;
+                analyticalRatingReference.child(String.valueOf((int) userRatingFloat)).setValue(String.valueOf(x));
 
                 //Save rating value under logged user
                 DatabaseReference userReference = FirebaseDatabase.getInstance().getReference().child("Users").child(currentUserFromIntent).child("Rating History").child(currentEventFromIntent).child(currentCompetitorFromIntent).child(currentRoundFromIntent);
                 userReference.setValue(userRatingFloat);
+
+                System.out.println(userRatingFloat +"--------------" +x +"-------------" +String.valueOf((int) userRatingFloat));
 
             }
         });
