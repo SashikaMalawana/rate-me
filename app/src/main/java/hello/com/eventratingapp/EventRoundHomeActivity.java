@@ -67,8 +67,12 @@ public class EventRoundHomeActivity extends AppCompatActivity {
                 break;
             case "2" :
                 query = mDatabase2.orderByChild("Ratings/Total Rating Points");
+                break;
             case "3" :
                 query = mDatabase2.orderByChild("Ratings/No Of Ratings");
+                break;
+            default:
+
         }
 
         arrayAdapter = new ArrayAdapter<String>(EventRoundHomeActivity.this, android.R.layout.simple_list_item_1, roundCompetitorsArrayList);
