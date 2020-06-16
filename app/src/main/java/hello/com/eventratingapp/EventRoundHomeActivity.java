@@ -15,6 +15,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 
@@ -55,6 +56,20 @@ public class EventRoundHomeActivity extends AppCompatActivity {
 
         mDatabase = FirebaseDatabase.getInstance().getReference().child("Events").child(eventNameFromIntent).child("Event Competitors");
         mDatabase2 = FirebaseDatabase.getInstance().getReference().child("Events").child(eventNameFromIntent).child("Rounds").child(roundNameFromIntent).child("Round Competitors");
+
+        // the correct way for mDatabase2.child("Ratings").orderByChild("Weighted Average Rating"); -> mDatabase2.orderByChild("Ratings/Weighted Average Rating");
+        Query query = mDatabase2.orderByChild("Ratings/Weighted Average Rating");
+
+        String str = "";
+        switch(str){
+            case "1" :
+                query = mDatabase2.orderByChild("Ratings/Weighted Average Rating");
+                break;
+            case "2" :
+                query = mDatabase2.orderByChild("Ratings/Total Rating Points");
+            case "3" :
+                query = mDatabase2.orderByChild("Ratings/No Of Ratings");
+        }
 
         arrayAdapter = new ArrayAdapter<String>(EventRoundHomeActivity.this, android.R.layout.simple_list_item_1, roundCompetitorsArrayList);
         jRoundCompetitorsListView.setAdapter(arrayAdapter);
@@ -118,6 +133,7 @@ public class EventRoundHomeActivity extends AppCompatActivity {
             }
         });
 
+        //Get event competitors and round competitors to arrayList
         mDatabase.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
@@ -146,7 +162,7 @@ public class EventRoundHomeActivity extends AppCompatActivity {
             }
         });
 
-        mDatabase2.addChildEventListener(new ChildEventListener() {
+        query.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 String str = dataSnapshot.getKey().toString();
