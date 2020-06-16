@@ -12,7 +12,6 @@ import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.ChildEventListener;
@@ -22,7 +21,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
-
 import java.util.ArrayList;
 
 public class EventRoundCompetitorProfileRateActivity extends AppCompatActivity {
@@ -53,7 +51,6 @@ public class EventRoundCompetitorProfileRateActivity extends AppCompatActivity {
     String noOfRatingsForCalc = null;
     String weightedAverageRatingForCalc = null;
 
-    String analyticalRatingValue = null;
     float userRatingFloat;
     String userRatingString;
 
