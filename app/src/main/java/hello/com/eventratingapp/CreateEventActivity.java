@@ -4,12 +4,14 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -75,6 +77,18 @@ public class CreateEventActivity extends AppCompatActivity {
         final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1, languageArrayList);
         eventSpinner.setAdapter(arrayAdapter);
 
+        eventSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                ((TextView) view).setTextColor(Color.BLACK);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
         DatabaseReference languageDatabase = FirebaseDatabase.getInstance().getReference().child("Languages");
         languageDatabase.addChildEventListener(new ChildEventListener() {
             @Override
@@ -114,8 +128,9 @@ public class CreateEventActivity extends AppCompatActivity {
                 String countryOfOrigin = countryOfOriginEditText.getText().toString().trim();
                 String originalLanguage = originalLanguageEditText.getText().toString().trim();
                 String genre = genreEditText.getText().toString().trim();
+                String langFromSpinner = eventSpinner.getSelectedItem().toString();
 
-                if(!eventNameShort.isEmpty() && !eventNameLong.isEmpty() && !countryOfOrigin.isEmpty() && !languageFromSpinner.isEmpty() && !genre.isEmpty()) {
+                if(!eventNameShort.isEmpty() && !eventNameLong.isEmpty() && !countryOfOrigin.isEmpty() && !langFromSpinner.isEmpty() && !genre.isEmpty()) {
 
                     mDatabaseEvent = mDatabase.child(eventNameShort);
 
@@ -145,7 +160,7 @@ public class CreateEventActivity extends AppCompatActivity {
                                     }
                                 }
                             });
-                            mDatabaseEvent.child("Original Language").setValue(languageFromSpinner).addOnCompleteListener(new OnCompleteListener<Void>() {
+                            mDatabaseEvent.child("Original Language").setValue(langFromSpinner).addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
                                     if(task.isSuccessful()) {
