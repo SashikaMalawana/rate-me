@@ -80,7 +80,7 @@ public class CreateEventActivity extends AppCompatActivity {
         eventSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                ((TextView) view).setTextColor(Color.BLACK);
+                ((TextView) view).setTextColor(Color.WHITE);
             }
 
             @Override
@@ -130,7 +130,7 @@ public class CreateEventActivity extends AppCompatActivity {
                 String genre = genreEditText.getText().toString().trim();
                 String langFromSpinner = eventSpinner.getSelectedItem().toString();
 
-                if(!eventNameShort.isEmpty() && !eventNameLong.isEmpty() && !countryOfOrigin.isEmpty() && !langFromSpinner.isEmpty() && !genre.isEmpty()) {
+                if(!eventNameShort.isEmpty() && !eventNameLong.isEmpty() && !countryOfOrigin.isEmpty() && !originalLanguage.isEmpty() && !genre.isEmpty()) {
 
                     mDatabaseEvent = mDatabase.child(eventNameShort);
 
@@ -160,7 +160,7 @@ public class CreateEventActivity extends AppCompatActivity {
                                     }
                                 }
                             });
-                            mDatabaseEvent.child("Original Language").setValue(langFromSpinner).addOnCompleteListener(new OnCompleteListener<Void>() {
+                            mDatabaseEvent.child("Original Language").setValue(originalLanguage).addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
                                     if(task.isSuccessful()) {
@@ -234,19 +234,18 @@ public class CreateEventActivity extends AppCompatActivity {
             }
         });
 
-        final TextView countDownTimerTextView = (TextView) findViewById(R.id.countDownTimer);
-        new CountDownTimer(5000, 1000) {
-            @Override
-            public void onTick(long millisUntilFinished) {
-                countDownTimerTextView.setText("Time left : " +millisUntilFinished/1000 +"s");
-            }
-
-            @Override
-            public void onFinish() {
-                countDownTimerTextView.setText("Time is up!");
-            }
-        }.start();
-        //ConfigProperty.setCountDownTimer(countDownTimerTextView, 10000, 1000);
+//        final TextView countDownTimerTextView = (TextView) findViewById(R.id.countDownTimer);
+//        new CountDownTimer(5000, 1000) {
+//            @Override
+//            public void onTick(long millisUntilFinished) {
+//                countDownTimerTextView.setText("Time left : " +millisUntilFinished/1000 +"s");
+//            }
+//
+//            @Override
+//            public void onFinish() {
+//                countDownTimerTextView.setText("Time is up!");
+//            }
+//        }.start();
 
     }
 

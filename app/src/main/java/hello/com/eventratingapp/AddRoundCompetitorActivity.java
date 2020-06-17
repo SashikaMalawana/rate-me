@@ -124,7 +124,7 @@ public class AddRoundCompetitorActivity extends AppCompatActivity{
                     builder.create().show();
 
                 }
-                
+
             }
         });
 
