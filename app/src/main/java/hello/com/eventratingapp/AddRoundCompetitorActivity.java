@@ -1,5 +1,7 @@
 package hello.com.eventratingapp;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -92,6 +94,37 @@ public class AddRoundCompetitorActivity extends AppCompatActivity{
 
                 SetRoundData(combinedArrayList, mDatabase, mDatabase2);
 
+                if (!combinedArrayList.isEmpty()) {
+
+                    AlertDialog.Builder builder = new AlertDialog.Builder(AddRoundCompetitorActivity.this);
+                    builder.setTitle("Competitors are added");
+                    builder.setMessage("You have successfully added " +combinedArrayList.size() +" competitors to " +eventNameFromIntent +" " +roundNameFromIntent + " :)");
+                    builder.setCancelable(false);
+                    builder.setNeutralButton("Ok", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            finish();
+                        }
+                    });
+                    builder.create().show();
+
+                }
+                else {
+
+                    AlertDialog.Builder builder = new AlertDialog.Builder(AddRoundCompetitorActivity.this);
+                    builder.setTitle("Competitors are not added");
+                    builder.setMessage("You selected competitors are already added to " +eventNameFromIntent +" " +roundNameFromIntent + " :)");
+                    builder.setCancelable(false);
+                    builder.setNeutralButton("Ok", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            finish();
+                        }
+                    });
+                    builder.create().show();
+
+                }
+                
             }
         });
 
@@ -110,6 +143,37 @@ public class AddRoundCompetitorActivity extends AppCompatActivity{
                 //mDatabase.setValue(combinedArrayList);
 
                 RemoveRoundData(separateArrayList, mDatabase, mDatabase2);
+
+                if (!separateArrayList.isEmpty()) {
+
+                    AlertDialog.Builder builder = new AlertDialog.Builder(AddRoundCompetitorActivity.this);
+                    builder.setTitle("Competitors are removed");
+                    builder.setMessage("You have successfully removed " +separateArrayList.size() +" competitors from " +eventNameFromIntent +" " +roundNameFromIntent + " :)");
+                    builder.setCancelable(false);
+                    builder.setNeutralButton("Ok", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            finish();
+                        }
+                    });
+                    builder.create().show();
+
+                }
+                else {
+
+                    AlertDialog.Builder builder = new AlertDialog.Builder(AddRoundCompetitorActivity.this);
+                    builder.setTitle("Competitors are not removed");
+                    builder.setMessage("You selected competitors are already not added to" +eventNameFromIntent +" " +roundNameFromIntent + " :)");
+                    builder.setCancelable(false);
+                    builder.setNeutralButton("Ok", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            finish();
+                        }
+                    });
+                    builder.create().show();
+
+                }
 
             }
         });
