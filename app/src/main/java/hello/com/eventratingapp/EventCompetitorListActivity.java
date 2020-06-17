@@ -33,7 +33,7 @@ public class EventCompetitorListActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         currentEventFromIntent = intent.getStringExtra("eventName");
-        eventCompetitorArrayList = intent.getStringArrayListExtra("competitorList");
+        //eventCompetitorArrayList = intent.getStringArrayListExtra("competitorList");
 
         mDatabase = FirebaseDatabase.getInstance().getReference().child("Events").child(currentEventFromIntent).child("Event Competitors");
         eventCompetitorListView = (ListView) findViewById(R.id.eventCompetitorListView);
