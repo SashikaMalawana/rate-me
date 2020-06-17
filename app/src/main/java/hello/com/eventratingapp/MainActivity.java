@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
         final AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
         builder.setTitle("Exit from RateMe?");
         builder.setMessage("Are you sure you want to exit?");
-        builder.setCancelable(true);
+        builder.setCancelable(false);
         builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
