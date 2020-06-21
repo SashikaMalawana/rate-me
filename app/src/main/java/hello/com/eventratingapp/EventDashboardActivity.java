@@ -31,8 +31,8 @@ public class EventDashboardActivity extends AppCompatActivity {
         subscribeEventButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Intent intent = new Intent(EventDashboardActivity.this, SubscribeEvent.class);
-//                startActivity(intent);
+                Intent intent = new Intent(EventDashboardActivity.this, SubscribedEventListActivity.class);
+                startActivity(intent);
             }
         });
 

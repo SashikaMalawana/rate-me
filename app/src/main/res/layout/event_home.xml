@@ -69,18 +69,33 @@
 
     <Button
         android:id="@+id/subscribeEventButton"
-        android:layout_width="91dp"
-        android:layout_height="wrap_content"
+        android:layout_width="78dp"
+        android:layout_height="39dp"
         android:layout_marginBottom="8dp"
         android:layout_marginTop="8dp"
         android:text="Subscribe Event"
-        android:textSize="12sp"
+        android:textSize="8sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.907"
+        app:layout_constraintHorizontal_bias="0.878"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.222" />
+        app:layout_constraintVertical_bias="0.182" />
+
+    <Button
+        android:id="@+id/unsubscribeEventButton"
+        android:layout_width="78dp"
+        android:layout_height="39dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="8dp"
+        android:text="Unsubscribe Event"
+        android:textSize="8sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.878"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.282" />
 
     <Button
         android:id="@+id/competitorListButton"

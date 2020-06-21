@@ -37,7 +37,8 @@
         <activity android:name=".PieChartActivity" />
         <activity android:name=".RadarChartActivity" />
         <activity android:name=".EventRoundCompetitorProfileActivity" />
-        <activity android:name=".EventRoundCompetitorProfileRateActivity"></activity>
+        <activity android:name=".EventRoundCompetitorProfileRateActivity" />
+        <activity android:name=".SubscribedEventListActivity"></activity>
     </application>
 
 </manifest>

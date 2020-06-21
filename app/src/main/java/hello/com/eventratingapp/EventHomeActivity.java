@@ -1,5 +1,7 @@
 package hello.com.eventratingapp;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -27,6 +29,7 @@ public class EventHomeActivity extends AppCompatActivity {
     private TextView originalLnaguageTextView;
     private TextView genreTextView;
     private Button subscribeEventButton;
+    private Button unsubscribeEventButton;
     private String eventForSubscribe;
     private Button competitorListButton;
     private Button createCompetitorButton;
@@ -38,6 +41,9 @@ public class EventHomeActivity extends AppCompatActivity {
     String linkToIntent;
 
     private ArrayList<String> eventCompetitorArrayList = new ArrayList<String>();
+    private ArrayList<String> subscribedEventArrayList = new ArrayList<String>();
+
+    String currentUserFromIntent = "Jason";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -51,6 +57,7 @@ public class EventHomeActivity extends AppCompatActivity {
         originalLnaguageTextView = (TextView) findViewById(R.id.originalLanguageTextView);
         genreTextView = (TextView) findViewById(R.id.genreTextView);
         subscribeEventButton = (Button) findViewById(R.id.subscribeEventButton);
+        unsubscribeEventButton = (Button) findViewById(R.id.unsubscribeEventButton);
         competitorListButton = (Button) findViewById(R.id.competitorListButton);
         createCompetitorButton = (Button) findViewById(R.id.createCompetitorBtn);
 
@@ -150,10 +157,119 @@ public class EventHomeActivity extends AppCompatActivity {
             }
         });
 
+        DatabaseReference mDatabaseSubscribed = FirebaseDatabase.getInstance().getReference().child("Users").child(currentUserFromIntent).child("Subscribed Events");
+        mDatabaseSubscribed.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                String eventName = dataSnapshot.getKey();
+                subscribedEventArrayList.add(eventName);
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
         subscribeEventButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                //Save subscribed events under logged user
+                DatabaseReference userReference = FirebaseDatabase.getInstance().getReference().child("Users").child(currentUserFromIntent).child("Subscribed Events").child(clickedListViewItem);
+                userReference.child("IsSubscribed").setValue("true");
+
                 Toast.makeText(EventHomeActivity.this, "You subscribed " +eventForSubscribe, Toast.LENGTH_SHORT).show();
+
+                if (!subscribedEventArrayList.contains(clickedListViewItem)) {
+
+                    AlertDialog.Builder builder = new AlertDialog.Builder(EventHomeActivity.this);
+                    builder.setTitle("Subscribed!");
+                    builder.setMessage("You have successfully subscribed " + clickedListViewItem + " event");
+                    builder.setCancelable(false);
+                    builder.setNeutralButton("Ok", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+                    builder.create().show();
+
+                }
+                else {
+
+                    AlertDialog.Builder builder = new AlertDialog.Builder(EventHomeActivity.this);
+                    builder.setTitle("Cannot Subscribed!");
+                    builder.setMessage("You have already subscribed " +clickedListViewItem + " event");
+                    builder.setCancelable(false);
+                    builder.setNeutralButton("Ok", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+                    builder.create().show();
+
+                }
+
+            }
+        });
+
+        unsubscribeEventButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                //Remove subscribed events under logged user
+                DatabaseReference userReference = FirebaseDatabase.getInstance().getReference().child("Users").child(currentUserFromIntent).child("Subscribed Events").child(clickedListViewItem);
+                userReference.removeValue();
+
+                Toast.makeText(EventHomeActivity.this, "You unsubscribed " +eventForSubscribe, Toast.LENGTH_SHORT).show();
+
+                if (subscribedEventArrayList.contains(clickedListViewItem)) {
+
+                    AlertDialog.Builder builder = new AlertDialog.Builder(EventHomeActivity.this);
+                    builder.setTitle("Unsubscribed!");
+                    builder.setMessage("You have successfully unsubscribed " + clickedListViewItem + " event");
+                    builder.setCancelable(false);
+                    builder.setNeutralButton("Ok", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+                    builder.create().show();
+
+                }
+                else {
+
+                    AlertDialog.Builder builder = new AlertDialog.Builder(EventHomeActivity.this);
+                    builder.setTitle("Cannot Unsubscribed!");
+                    builder.setMessage("You have already unsubscribed " +clickedListViewItem + " event");
+                    builder.setCancelable(false);
+                    builder.setNeutralButton("Ok", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+                    builder.create().show();
+
+                }
             }
         });
 
